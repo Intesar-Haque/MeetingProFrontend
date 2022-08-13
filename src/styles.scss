@@ -1,0 +1,43 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-center {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  background-color: white;
+  border-radius: 50%;
+  color: black;
+  cursor: pointer;
+}
+:root {
+  --primary: #029DF0;
+  --primary-light: lavender;
+  --text-primary: white;
+  --text-dark: black;
+  --tpFontFamily: 'Mulish', sans-serif, "Font Awesome 5 Free" !important;
+}
+
+.float-right{
+  float: right !important;
+}
+.text-primary{
+  color:var(--text-primary) !important
+}
+@import url(assets/scss/grid.scss);

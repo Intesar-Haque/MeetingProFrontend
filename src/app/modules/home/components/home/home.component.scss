@@ -1,0 +1,10 @@
+.home {
+  height: 100vh;
+  flex-direction: column;
+  padding: 1rem;
+}
+@media (max-width: 719px) {
+  .container-fluid {
+    width: 100% !important;
+  }
+}

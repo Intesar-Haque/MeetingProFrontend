@@ -1,0 +1,30 @@
+.video-player {
+  position: relative;
+  text-align: center;
+  padding: 0.5rem;
+  background-color: var(--text-dark);
+  height: fit-content;
+  margin: 0.5px;
+
+  video {
+    max-width: 100%;
+    height: auto;
+    max-height: 400px;
+  }
+
+  .action {
+    width: 100%;
+    position: absolute;
+    bottom: 0.5rem;
+    display: flex;
+    justify-content: center;
+
+    .icon {
+      opacity: 0.3;
+    }
+  }
+}
+
+.my-video {
+  background-color: var(--text-dark);
+}
