@@ -8,12 +8,14 @@ export class SocketService {
   public joinedId = new BehaviorSubject(null);
   public leavedId = new BehaviorSubject(null);
   public newMessage = new BehaviorSubject(null);
+  public newDraw = new BehaviorSubject(null);
   public socket: Socket;
 
   constructor() {
     this.socket = io(ApiEndpoint.SOCKET_ENDPOINT, { path: '/socket' });
     this.hanleUserConnect();
     this.handleNewMessage();
+    this.handleDraw();
   }
 
   public joinRoom(roomId: string, userId: string): void {
@@ -22,6 +24,11 @@ export class SocketService {
 
   public chat(content: string): void {
     this.socket.emit('chat', content);
+  }
+  public draw(content: any[]): void {
+    console.log('Sent Data')
+    console.log(content)
+    this.socket.emit('draw', content);
   }
 
   private hanleUserConnect(): void {
@@ -36,6 +43,12 @@ export class SocketService {
   private handleNewMessage(): void {
     this.socket.on('new-message', (content) => {
       this.newMessage.next(content);
+    })
+  }
+
+  private handleDraw(): void {
+    this.socket.on('new-draw', (content) => {
+      this.newDraw.next(content);
     })
   }
 }

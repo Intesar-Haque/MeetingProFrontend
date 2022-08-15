@@ -9,13 +9,15 @@ import { SocketService } from "./services/socket.service";
 import { HttpClientModule } from '@angular/common/http';
 import {ChatComponent} from "./components/chat/chat.component";
 import {ChatInputComponent} from "./components/chat/chat-input/chat-input.component";
+import { WhiteBoardComponent } from './components/white-board/white-board.component';
 
 @NgModule({
     declarations: [
         CallComponent,
         VideoPlayerComponent,
         ChatComponent,
-        ChatInputComponent
+        ChatInputComponent,
+        WhiteBoardComponent
     ],
     providers: [
         PeerService,
