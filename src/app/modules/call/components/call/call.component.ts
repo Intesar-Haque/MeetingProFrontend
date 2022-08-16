@@ -14,6 +14,7 @@ export class CallComponent implements OnInit, AfterViewInit {
   public localStream: MediaStream;
   public roomId: string = '';
   public isHideChat = true;
+  public isHideWhiteboard = true;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -31,6 +32,8 @@ export class CallComponent implements OnInit, AfterViewInit {
     Utils.getMediaStream({ video: true, audio: true }).then(stream => {
       this.localStream = stream;
       this.openPeer();
+    }).catch(()=>{
+      this.openPeer()
     })
   }
 
@@ -118,5 +121,11 @@ export class CallComponent implements OnInit, AfterViewInit {
   }
 
 
+    whiteboard() {
+        this.isHideWhiteboard = !this.isHideWhiteboard
+    }
 
+  sharePaths($event: any[]) {
+    
+  }
 }

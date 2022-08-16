@@ -1,0 +1,11 @@
+.white-board-element{
+  width: 99vw;
+  height: 99vh;
+  overflow: hidden;
+  background-color: white;
+}
+.draw-path{
+  fill: none;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}

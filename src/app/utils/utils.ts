@@ -8,7 +8,7 @@ export default class Utils {
             navigator.mediaDevices.getUserMedia(constraints).then(stream => {
                 resolve(stream);
             }).catch(() => {
-                alert('Failed to access camera/microphone');
+                console.error('Failed to access camera/microphone');
                 reject();
             })
         }
@@ -20,7 +20,7 @@ export default class Utils {
             navigator.mediaDevices.getDisplayMedia(constraints).then(stream => {
                     resolve(stream);
                 }).catch(() => {
-                    alert('Failed to access display');
+                    console.error('Failed to access display');
                     reject();
                 })
             }
