@@ -5,6 +5,8 @@
      </div>
      <div class="conversation"
           #conversation>
+          <div class="message cor-message" >Meeting Link:&nbsp;&nbsp;<a [style.color]="'white'" [href]="meetingLink">{{meetingLink}}</a> </div>
+          <div class="title" [style.float]="'left'"><strong>System Generated</strong></div><br>
           <div *ngFor="let chat of chats; index as i">
                <div class="message" [id]="i" [ngClass]="chat.isMe ? 'my-message' : 'cor-message'">{{chat.content}}</div>
                <div class="title" [style.float]="chat.isMe? 'right':'left'"><strong>{{chat.name}}</strong>&nbsp;{{chat.time}}</div><br>

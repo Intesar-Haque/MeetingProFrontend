@@ -11,16 +11,14 @@ import LocalStorageUtil from "../../../../utils/local-storage";
 export class ChatComponent implements OnInit {
   public chats: Chat[] = [];
   @Output() public isOpen = new EventEmitter<boolean>();
+  public meetingLink = '';
   constructor(private socketService: SocketService) {
   }
 
   ngOnInit(): void {
     this.handleNewMessage();
+    this.meetingLink = window.location.href
   }
-
-  // addshareLinkMessage(): void {
-  //   this.addMessage(`Meeting Link: ${window.location.href}`);
-  // }
 
   handleNewMessage(): void {
     this.socketService.newMessage.subscribe((message:Chat) => {
