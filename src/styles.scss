@@ -21,14 +21,15 @@
   height: 2rem;
   margin: 0.5rem;
   padding: 0.5rem;
-  background-color: white;
-  border-radius: 50%;
-  color: black;
+  background-color: transparent;
+  //border-radius: 50%;
+  color: var(--text-primary);
   cursor: pointer;
 }
 :root {
-  --primary: #029DF0;
-  --primary-light: lavender;
+  --primary: #764abc;
+  --primary-light: #e6e6fa;
+  --primary-shade: #9898b9;
   --text-primary: white;
   --text-dark: black;
   --tpFontFamily: 'Mulish', sans-serif, "Font Awesome 5 Free" !important;

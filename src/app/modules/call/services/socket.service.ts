@@ -9,6 +9,7 @@ export class SocketService {
   public leavedId = new BehaviorSubject(null);
   public newMessage = new BehaviorSubject(null);
   public newDraw = new BehaviorSubject(null);
+  public hideWhiteboard = new BehaviorSubject(null);
   public socket: Socket;
 
   constructor() {
@@ -16,18 +17,17 @@ export class SocketService {
     this.hanleUserConnect();
     this.handleNewMessage();
     this.handleDraw();
+    this.handleWhiteboard()
   }
 
   public joinRoom(roomId: string, userId: string): void {
     this.socket.emit('join-room', roomId, userId);
   }
 
-  public chat(content: string): void {
+  public chat(content: any): void {
     this.socket.emit('chat', content);
   }
   public draw(content: any[]): void {
-    console.log('Sent Data')
-    console.log(content)
     this.socket.emit('draw', content);
   }
 
@@ -49,6 +49,15 @@ export class SocketService {
   private handleDraw(): void {
     this.socket.on('new-draw', (content) => {
       this.newDraw.next(content);
+    })
+  }
+
+  whiteboard(isHideWhiteboard: boolean) {
+    this.socket.emit('white-board', isHideWhiteboard);
+  }
+  private handleWhiteboard(): void {
+    this.socket.on('hide-whiteboard', (content) => {
+      this.hideWhiteboard.next(content);
     })
   }
 }

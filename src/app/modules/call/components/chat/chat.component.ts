@@ -15,25 +15,27 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.handleNewMessage();
-    this.addshareLinkMessage();
+    // this.addshareLinkMessage();
   }
 
-  addshareLinkMessage(): void {
-    this.addMessage(`Share this link to your friend to start video call ${window.location.href}`);
-  }
+  // addshareLinkMessage(): void {
+  //   this.addMessage(`Meeting Link: ${window.location.href}`);
+  // }
 
   handleNewMessage(): void {
-    this.socketService.newMessage.subscribe(message => {
+    this.socketService.newMessage.subscribe((message:Chat) => {
       if (message) {
-        this.chats.push({ content: message })
+        this.chats.push(message)
         this.scrollToNewMessage();
       }
     })
   }
 
   public addMessage(message: string): void {
-    this.socketService.chat(message)
-    this.chats.push({ content: message, isMe: true });
+    let payload = {name:'WILL_COME_FROM_DB', content:message, time:new Date().toLocaleString(), isMe:false}
+    this.socketService.chat(payload)
+    payload.isMe = true
+    this.chats.push(payload);
     this.scrollToNewMessage();
   }
 

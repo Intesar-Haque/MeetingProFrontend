@@ -11,7 +11,18 @@
     margin: 0.5rem;
   }
 }
-
+.send-icon{
+  position: absolute;
+  margin-right: 1rem;
+  right: 0;
+  color: var(--primary) !important;
+  opacity: .75;
+  cursor: pointer;
+  padding: 5px;
+}
+.send-icon:hover{
+  opacity: 1;
+}
 .emoji-icon {
   padding: 0.5rem;
   cursor: pointer;

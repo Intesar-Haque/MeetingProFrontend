@@ -5,12 +5,11 @@
      </div>
      <div class="conversation"
           #conversation>
-          <div class="message"
-               *ngFor="let chat of chats; index as i"
-               [id]="i"
-               [ngClass]="chat.isMe ? 'my-message' : 'cor-message'"
-               [innerHTML]="chat.content">
+          <div *ngFor="let chat of chats; index as i">
+               <div class="message" [id]="i" [ngClass]="chat.isMe ? 'my-message' : 'cor-message'">{{chat.content}}</div>
+               <div class="title" [style.float]="chat.isMe? 'right':'left'"><strong>{{chat.name}}</strong>&nbsp;{{chat.time}}</div><br>
           </div>
+
      </div>
      <app-chat-input (onSubmitMessage)="addMessage($event)"></app-chat-input>
 </div>

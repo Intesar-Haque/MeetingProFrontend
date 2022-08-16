@@ -35,6 +35,7 @@ export class CallComponent implements OnInit, AfterViewInit {
     }).catch(()=>{
       this.openPeer()
     })
+    this.socketService.hideWhiteboard.subscribe({next:(res:boolean)=>{if(res != undefined || res != null){this.isHideWhiteboard = res} }})
   }
 
   hideOrUnhideChat(): void {
@@ -121,9 +122,10 @@ export class CallComponent implements OnInit, AfterViewInit {
   }
 
 
-    whiteboard() {
-        this.isHideWhiteboard = !this.isHideWhiteboard
-    }
+  whiteboard() {
+      this.isHideWhiteboard = !this.isHideWhiteboard
+      this.socketService.whiteboard(this.isHideWhiteboard)
+  }
 
   sharePaths($event: any[]) {
     

@@ -9,13 +9,14 @@
   justify-content: space-between;
   height: 100vh;
   max-height: 100%;
-  background-color: var(--text-primary);
+  background-color: whitesmoke;
+  border-left: 1px solid var(--primary);
 
   .chat-header {
     padding: 1rem;
     min-height: 1.5rem;
-    background-color: var(--primary);
-    color: var(--text-primary);
+    background-color: var(--primary) !important;
+    color: var(--text-primary) !important;
     font-size: x-large;
     font-weight: bolder;
   }
@@ -30,17 +31,25 @@
   .conversation {
     flex: 1;
     overflow-y: auto;
+    .title{
+      margin-right: 0.5rem;
+      margin-left: 0.5rem;
+      font-size: x-small;
+      color: #828282;
+    }
     .message {
       padding: 0.5rem;
-      background-color: var(--primary-light);
-      color: var(--text-darkt);
+      background-color: var(--primary-shade);
+      color: var(--text-primary);
       margin: 0.5rem;
+      margin-bottom: 0 !important;
       border-radius: 0.5rem;
     }
 
     .my-message {
       margin-left: 2rem;
-      background-color: var(--primary-light);
+      background-color: var(--primary) !important;
+      color: var(--text-primary) !important;
     }
 
     .cor-message {

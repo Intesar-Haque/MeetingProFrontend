@@ -1,6 +1,5 @@
 <div class="call-container row">
-    <div class="media-area s-12 m-9 l-10"
-         [ngClass]="{'m-12 l-12 full-screen': isHideChat}" *ngIf="isHideWhiteboard">
+    <div class="media-area s-12 m-9 l-10" [ngClass]="{'m-12 l-12 full-screen': isHideChat}" [style.visibility]="{'hidden':!isHideWhiteboard}" *ngIf="isHideWhiteboard">
         <app-video-player *ngIf="localStream"
                           [mode]="'owner'"
                           [stream]="localStream"
@@ -10,7 +9,7 @@
                           [stream]="user.stream">
         </app-video-player>
     </div>
-    <div class="media-area s-12 m-9 l-10"
+    <div class=" s-12 m-9 l-10"
          [ngClass]="{'m-12 l-12 full-screen': isHideChat}" *ngIf="!isHideWhiteboard">
         <app-white-board></app-white-board>
     </div>
@@ -20,8 +19,8 @@
     </div>
 </div>
 <div class="chat-cion" [ngClass]="{'icon-chat-show-mobile': !isHideChat}">
-    <i class="fa fa-chalkboard action-icons" [style.background-color]="'green'"  (click)="screenShare()" ></i>
+    <i class="fa fa-desktop  action-icons" [style.background-color]="'green'"  (click)="screenShare()" ></i>
     <i class="fa fa-comment action-icons"  [style.background-color]="'var(--primary)'" (click)="hideOrUnhideChat()" [ngClass]="{'fa-comment-slash': !isHideChat}"></i>
     <i class="fa fa-phone-slash action-icons" [style.background-color]="'red'" (click)="hangUp()"></i>
-    <i class="fa fa-chalkboard action-icons" [style.background-color]="'orange'" (click)="whiteboard()"></i>
+    <i class="fa fa-chalkboard action-icons" [style.background-color]="isHideWhiteboard?'skyblue':'orange'" (click)="whiteboard()"></i>
 </div>
