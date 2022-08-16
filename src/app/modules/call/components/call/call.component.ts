@@ -130,4 +130,8 @@ export class CallComponent implements OnInit, AfterViewInit {
   sharePaths($event: any[]) {
     
   }
+
+  hideOrUnhideUsers() {
+
+  }
 }

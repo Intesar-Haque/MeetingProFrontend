@@ -3,6 +3,12 @@
   flex-direction: column;
   padding: 1rem;
 }
+.join-meeting{
+  padding: 20px;
+  background-color: #422b66;
+  border-radius: 4px;
+  box-shadow: 5px 5px 5px 5px rgb(0 0 0 / 35%);
+}
 @media (max-width: 719px) {
   .container-fluid {
     width: 100% !important;

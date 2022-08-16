@@ -19,8 +19,10 @@ export class AppAuthService implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
         if (this.verifyToken()) {
             this.route.navigate(['/login']);
+            return false
+        } else {
+            return true
         }
-        return true
     }
 
     verifyToken(){
@@ -28,6 +30,8 @@ export class AppAuthService implements CanActivate {
         if(token){
             // TODO: CALL API TO CHECK TOKEN
             return false;
+        } else {
+            return true;
         }
     }
 }

@@ -14,10 +14,12 @@ const routes: Routes = [
   },
   {
     path: 'call/:roomId',
+    canActivate: [AppAuthService],
     loadChildren: () => import('./modules/call/call.module').then(c => c.CallModule)
   },
   {
     path: '**',
+    canActivate: [AppAuthService],
     loadChildren: () => import('./modules/not-found/page-not-found.module').then(n => n.PageNotFoundModule)
   }
 ];

@@ -1,19 +1,16 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { HomeComponent } from "./components/home/home.component";
 import {FormsModule} from "@angular/forms";
+import {HomeComponent} from "./home.component";
+import {DashboardComponent} from "./components/dashboard/dashboard.component";
+import {HomeRoutingModule} from "./home.routing.module";
 
-const homeRoutes: Routes = [
-    {
-        path: '',
-        component: HomeComponent
-    }
-]
+
 
 @NgModule({
-    declarations: [HomeComponent],
-    imports: [RouterModule.forChild(homeRoutes), FormsModule],
-    exports: [RouterModule]
+    declarations: [HomeComponent, DashboardComponent],
+    imports: [HomeRoutingModule, FormsModule],
+
 })
 export class HomeModule {
 

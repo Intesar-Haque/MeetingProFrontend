@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     if(this.loginForm.valid){
       LocalStorageUtil.setInfo('token', Utils.genRoomId()); // TODO: Call api and set token
+      LocalStorageUtil.setInfo('username', this.loginForm.value.username); // TODO: Call api and set token
       this.router.navigate(['/'])
     }
   }

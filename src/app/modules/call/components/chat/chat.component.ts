@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { SocketService } from 'src/app/modules/call/services/socket.service';
 import { Chat } from '../../models/chat.model';
+import LocalStorageUtil from "../../../../utils/local-storage";
 
 @Component({
   selector: 'app-chat',
@@ -15,7 +16,6 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.handleNewMessage();
-    // this.addshareLinkMessage();
   }
 
   // addshareLinkMessage(): void {
@@ -32,7 +32,7 @@ export class ChatComponent implements OnInit {
   }
 
   public addMessage(message: string): void {
-    let payload = {name:'WILL_COME_FROM_DB', content:message, time:new Date().toLocaleString(), isMe:false}
+    let payload = {name:LocalStorageUtil.getString('username'), content:message, time:new Date().toLocaleString(), isMe:false}
     this.socketService.chat(payload)
     payload.isMe = true
     this.chats.push(payload);
