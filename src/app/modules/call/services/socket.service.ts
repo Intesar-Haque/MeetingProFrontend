@@ -12,6 +12,7 @@ export class SocketService {
   public newMessage = new BehaviorSubject(null);
   public newDraw = new BehaviorSubject(null);
   public hideWhiteboard = new BehaviorSubject(null);
+  public isScreenShare = new BehaviorSubject(null);
   public socket: Socket;
 
   constructor() {
@@ -20,6 +21,7 @@ export class SocketService {
     this.handleNewMessage();
     this.handleDraw();
     this.handleWhiteboard()
+    this.handleScreenShare()
   }
 
   public joinRoom(roomId: string, userId: string): void {
@@ -65,6 +67,16 @@ export class SocketService {
   private handleWhiteboard(): void {
     this.socket.on('hide-whiteboard', (content) => {
       this.hideWhiteboard.next(content);
+    })
+  }
+
+
+  shareScreen(content) {
+    this.socket.emit('share-screen', content);
+  }
+  private handleScreenShare(): void {
+    this.socket.on('on-share-screen', (content:any) => {
+      this.isScreenShare.next(content);
     })
   }
 }

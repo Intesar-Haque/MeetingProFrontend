@@ -1,16 +1,18 @@
 .call-container {
-  height: 100vh;
+  height: auto;
   max-height: 100vh;
-  width: 100vw;
+  width: auto;
   overflow-y: auto;
   margin: 0 !important;
+  background-color: var(--color-primary-deep);
 
   .media-area {
     display: grid;
-    grid-template-columns: auto auto;
-    padding: 0.5rem;
-    background-color: var(--primary-light);
-    max-height: 100vh;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 1fr;
+    //grid-column-gap: 30px;
+    //grid-row-gap: 30px;
+    background-color: var(--color-primary-deep);
   }
 
   .chat-container {
@@ -22,18 +24,17 @@
 .hide {
   display: none;
 }
-
 .chat-cion {
   position: fixed;
   bottom: 1.5rem;
   transform: translateX(-50%);
   z-index: 5;
   left: 50%;
-  cursor: pointer;
-  background-color: var(--text-dark);
+  background-color: var(--color-primary-light);
   border-radius: 1rem;
   opacity: .50;
   transition: 0.5s;
+  box-shadow: 3px 3px 3px 3px var(--color-primary-dark);
 }
 .chat-cion:hover {
   opacity: 1;
@@ -42,6 +43,10 @@
 @media (max-width: 719px) {
   .icon-chat-show-mobile {
     visibility: hidden;
+  }
+  .chat-cion {
+    display: inline-flex;
+    text-align: center;
   }
 }
 
@@ -55,7 +60,7 @@
     }
     .media-area {
       height: 100vh;
-      grid-template-columns: auto auto auto;
+      //grid-template-columns: auto auto auto;
     }
   }
 }

@@ -1,7 +1,7 @@
 .chat-input {
   display: flex;
   align-items: center;
-  background-color: var(--primary);
+  color: var(--color-primary-deep) !important;
   textarea {
     flex: 1;
     resize: none;
@@ -15,7 +15,7 @@
   position: absolute;
   margin-right: 1rem;
   right: 0;
-  color: var(--primary) !important;
+  color: var(--color-primary-deep) !important;
   opacity: .75;
   cursor: pointer;
   padding: 5px;

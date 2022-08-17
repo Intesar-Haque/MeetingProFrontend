@@ -1,0 +1,16 @@
+<div class="user">
+    <div class="header">
+        <div class="title">Participants</div>
+        <i class="close fa fa-times" (click)="isOpen.emit(false)"></i>
+    </div>
+    <div class="user-list">
+        <div class="list-item list-item-odd">
+            <img class="round-image" [src]="noImage" alt=""><span class="person-name">{{myName}}</span>
+        </div>
+        <div *ngFor="let user of users; index as i">
+            <div class="list-item list-item-odd" [ngClass]="{'list-item-even':(i%2==0)}">
+                <img class="round-image" [src]="noImage" alt=""><span class="person-name">{{user.name}}</span>
+            </div>
+        </div>
+    </div>
+</div>

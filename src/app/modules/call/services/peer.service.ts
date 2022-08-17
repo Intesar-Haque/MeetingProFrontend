@@ -53,6 +53,7 @@ export class PeerService {
 
   private handleInComingCall(stream: MediaStream): void {
     this.peer.on('call', call => {
+      console.log(call)
       call.answer(stream);
       call.on('stream', (anotherStream: any) => {
         this.joinUser.next({ peerId: call.peer, stream: anotherStream });

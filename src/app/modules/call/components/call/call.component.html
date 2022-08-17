@@ -1,5 +1,22 @@
-<div class="call-container row">
-    <div class="media-area s-12 m-9 l-10" [ngClass]="{'m-12 l-12 full-screen': isHideChat}" [style.visibility]="{'hidden':!isHideWhiteboard}" *ngIf="isHideWhiteboard">
+<div class="chat-cion" [ngClass]="{'icon-chat-show-mobile': !isHideChat}">
+    <i class="fa fa-chalkboard action-icons" (click)="whiteboard()"></i>
+    <i class="fa fa-comment action-icons" (click)="hideOrUnhideChat()" [ngClass]="{'fa-comment-slash': !isHideChat}"></i>
+    <i class="fa fa-users action-icons" (click)="hideOrUnhideUsers()"></i>
+    <div style="height:1rem; border-left:1px solid white; display: inline-flex"></div>
+    <i class="fa fa-video action-icons" (click)="videoControls()" [ngClass]="{'fa-video-slash ': videoHidden}"></i>
+    <i class="fa fa-microphone action-icons" (click)="micControls()" [ngClass]="{'fa-microphone-slash ': micMuted}"></i>
+    <i class="fa fa-desktop action-icons" (click)="screenShare()" ></i>
+    <i class="fa fa-phone-slash action-icons" [style.color]="'red'" (click)="hangUp()"></i>
+</div>
+<div class="call-container d-flex">
+    <div class="media-area s-12 m-9 l-10" [ngClass]="{'m-12 l-12 full-screen':  isHideChat && isHideUsers}"  *ngIf="!isHideShareScreen && isHideWhiteboard">
+        <app-video-player [mode]="'owner'"
+                          [stream]="screenStream"
+                          [username]="myName"
+                          class="my-video">
+        </app-video-player>
+    </div>
+    <div class="media-area s-12 m-9 l-10" [ngClass]="{'m-12 l-12 full-screen':  isHideChat && isHideUsers && isHideShareScreen}"  *ngIf="isHideWhiteboard && isHideShareScreen">
         <app-video-player *ngIf="localStream"
                           [mode]="'owner'"
                           [stream]="localStream"
@@ -12,20 +29,16 @@
         </app-video-player>
     </div>
     <div class=" s-12 m-9 l-10"
-         [ngClass]="{'m-12 l-12 full-screen': isHideChat}" *ngIf="!isHideWhiteboard">
+         [ngClass]="{'m-12 l-12 full-screen': isHideChat && isHideUsers && isHideShareScreen}" *ngIf="!isHideWhiteboard && isHideShareScreen">
         <app-white-board></app-white-board>
     </div>
     <div [ngClass]="{'hide':isHideChat}"
          class="chat-container s-12 gm-3 l-2 p-0">
         <app-chat (isOpen)="hideOrUnhideChat()"></app-chat>
     </div>
+    <div [ngClass]="{'hide':isHideUsers}"
+         class="chat-container s-12 gm-3 l-2 p-0">
+        <app-user-list (isOpen)="hideOrUnhideUsers()" [users]="joinedUsers" [myName]="myName"></app-user-list>
+    </div>
 </div>
-<div class="chat-cion" [ngClass]="{'icon-chat-show-mobile': !isHideChat}">
-    <i class="fa fa-microphone action-icons" (click)="micControls()" [ngClass]="{'fa-microphone-slash ': micMuted}"></i>
-    <i class="fa fa-video action-icons" (click)="videoControls()" [ngClass]="{'fa-video-slash ': videoHidden}"></i>
-    <i class="fa fa-desktop action-icons" (click)="screenShare()" ></i>
-    <i class="fa fa-comment action-icons" (click)="hideOrUnhideChat()" [ngClass]="{'fa-comment-slash': !isHideChat}"></i>
-    <i class="fa fa-phone-slash action-icons" (click)="hangUp()"></i>
-    <i class="fa fa-chalkboard action-icons" (click)="whiteboard()"></i>
-    <i class="fa fa-users action-icons" (click)="hideOrUnhideChat()"></i>
-</div>
+

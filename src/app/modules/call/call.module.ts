@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {ChatComponent} from "./components/chat/chat.component";
 import {ChatInputComponent} from "./components/chat/chat-input/chat-input.component";
 import { WhiteBoardComponent } from './components/white-board/white-board.component';
+import { UserListComponent } from './components/user-list/user-list.component';
 
 @NgModule({
     declarations: [
@@ -17,7 +18,8 @@ import { WhiteBoardComponent } from './components/white-board/white-board.compon
         VideoPlayerComponent,
         ChatComponent,
         ChatInputComponent,
-        WhiteBoardComponent
+        WhiteBoardComponent,
+        UserListComponent
     ],
     providers: [
         PeerService,

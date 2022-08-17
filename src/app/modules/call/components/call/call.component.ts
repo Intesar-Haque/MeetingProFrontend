@@ -16,13 +16,16 @@ import {BehaviorSubject} from "rxjs";
 export class CallComponent implements OnInit, AfterViewInit {
   public joinedUsers: ConnectedUser[] = [];
   public localStream: MediaStream;
+  public screenStream: MediaStream;
   public roomId: string = '';
-  public isHideChat = true;
   public isHideWhiteboard = true;
   public myName: string = '';
   public localStreamControls = new BehaviorSubject(null);
   public micMuted: boolean = false;
   public videoHidden: boolean = false;
+  public isHideUsers = true;
+  public isHideChat = true;
+  public isHideShareScreen = true;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -44,11 +47,26 @@ export class CallComponent implements OnInit, AfterViewInit {
     }).catch(()=>{
       this.openPeer()
     })
-    this.socketService.hideWhiteboard.subscribe({next:(res:boolean)=>{if(res != undefined || res != null){this.isHideWhiteboard = res} }})
+    this.socketService.hideWhiteboard.subscribe({next:(res:boolean)=>{if(res != undefined){this.isHideWhiteboard = res} }})
+    this.socketService.isScreenShare.subscribe({
+      next:(res:any)=>{
+        console.log(res)
+        if(res != undefined){
+          this.isHideShareScreen = !res.display
+          if(!this.isHideShareScreen){
+            let idx = this.joinedUsers.findIndex(u => u.peerId === res.peerId)
+            if(idx > -1){
+              this.screenStream = this.joinedUsers[idx].stream
+            }
+          }
+        }
+      }
+    })
   }
 
   hideOrUnhideChat(): void {
     this.isHideChat = !this.isHideChat;
+    if(!this.isHideChat) this.isHideUsers = true
   }
 
   private detectScreenWith(): void {
@@ -103,14 +121,18 @@ export class CallComponent implements OnInit, AfterViewInit {
   }
 
   hangUp() {
-
     this.router.navigateByUrl(`/`)
   }
 
   screenShare(): void {
-    Utils.getUserStream({  video: true, audio: false }).then(stream => {
-      this.localStream = stream;
-      const videoTrack = this.localStream.getVideoTracks()[0];
+    Utils.getUserStream({  video: true, audio: true }).then(stream => {
+      this.peerService.openPeer(stream).then((myPeerId) => {
+        this.socketService.joinRoom(this.roomId, myPeerId);
+      })
+      this.isHideShareScreen = false
+      this.socketService.shareScreen({peerId:this.peerService.myPeerId, display:true})
+      this.screenStream = stream;
+      const videoTrack = this.screenStream.getVideoTracks()[0];
       const sender = this.peerService.currentPeer.getSenders().find(s => s.track.kind === videoTrack.kind);
       sender.replaceTrack(videoTrack);
       videoTrack.onended = () => {
@@ -124,6 +146,8 @@ export class CallComponent implements OnInit, AfterViewInit {
   private stopScreenShare(): void {
     Utils.getMediaStream({ video: true, audio: true }).then(stream => {
       this.localStream = stream;
+      this.isHideShareScreen = true
+      this.socketService.shareScreen({peerId:this.peerService.myPeerId, display:false})
       const videoTrack = this.localStream.getVideoTracks()[0];
       const sender = this.peerService.currentPeer.getSenders().find(s => s.track.kind === videoTrack.kind);
       sender.replaceTrack(videoTrack);
@@ -143,5 +167,10 @@ export class CallComponent implements OnInit, AfterViewInit {
     this.micMuted=!this.micMuted
     this.localStreamControls.next('audio')
 
+  }
+
+  hideOrUnhideUsers() {
+    this.isHideUsers = !this.isHideUsers;
+    if(!this.isHideUsers) this.isHideChat = true
   }
 }

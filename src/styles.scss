@@ -27,6 +27,12 @@
   cursor: pointer;
 }
 :root {
+  --color-primary:#292828;
+  --color-primary-light: #343434;
+  --color-primary-deep:#292828;
+  --color-primary-dark:#201F1F;
+
+
   --primary: #2f263c;
   --primary-light: #1e1e30;
   --primary-shade: #584089;
@@ -44,7 +50,7 @@
 .action-icons{
   padding: .5rem;
   background-color: transparent;
-  margin: .5rem;
+  margin: .5rem .25rem;
   border-radius: .25rem;
   opacity: .50;
   color: white;
