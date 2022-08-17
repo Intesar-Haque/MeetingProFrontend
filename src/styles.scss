@@ -27,10 +27,10 @@
   cursor: pointer;
 }
 :root {
-  --primary: #764abc;
-  --primary-light: #e6e6fa;
-  --primary-shade: #9898b9;
-  --text-primary: white;
+  --primary: #2f263c;
+  --primary-light: #1e1e30;
+  --primary-shade: #584089;
+  --text-primary: #e8e8e8;
   --text-dark: black;
   --tpFontFamily: 'Mulish', sans-serif, "Font Awesome 5 Free" !important;
 }
@@ -41,4 +41,16 @@
 .text-primary{
   color:var(--text-primary) !important
 }
+.action-icons{
+  padding: .5rem;
+  background-color: transparent;
+  margin: .5rem;
+  border-radius: .25rem;
+  opacity: .50;
+  color: white;
+}
+.action-icons:hover{
+  opacity: 1;
+}
 @import url(assets/scss/grid.scss);
+@import url(assets/scss/icons.scss);

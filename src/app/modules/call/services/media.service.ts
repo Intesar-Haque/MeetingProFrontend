@@ -21,14 +21,11 @@ export class MediaService {
     }
   }
 
-  public getMicSrc(): string {
-    if (this.mode === 'owner') {
-      return this.isMute.getValue() ? MediaIconUrl.micMuteIconUrl : MediaIconUrl.micIconUrl;
-    }
-    return this.isMute.getValue() ? MediaIconUrl.soundOffIconUrl : MediaIconUrl.soundIconUrl;
+  public isMuted(): boolean {
+    return this.isMute.getValue();
   }
 
-  public getWebcamSrc(): string {
-    return this.isCameraOff.getValue() ? MediaIconUrl.cameraOffIconUrl : MediaIconUrl.cameraIconUrl;
+  public isVideoHidden(): boolean {
+    return this.isCameraOff.getValue();
   }
 }

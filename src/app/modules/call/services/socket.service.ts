@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import io, { Socket } from 'socket.io-client';
 import ApiEndpoint from "../../../utils/ApiEndpoint";
+import {ConnectedUser} from "../models/user.model";
+import LocalStorageUtil from "../../../utils/local-storage";
 
 @Injectable()
 export class SocketService {
@@ -21,7 +23,12 @@ export class SocketService {
   }
 
   public joinRoom(roomId: string, userId: string): void {
-    this.socket.emit('join-room', roomId, userId);
+    let connectedUser:ConnectedUser =  {
+      id: 0,
+      name: LocalStorageUtil.getString('username'),
+      peerId:userId
+    };
+    this.socket.emit('join-room', roomId, connectedUser);
   }
 
   public chat(content: any): void {
@@ -32,8 +39,8 @@ export class SocketService {
   }
 
   private hanleUserConnect(): void {
-    this.socket.on('user-connected', userId => {
-      this.joinedId.next(userId);
+    this.socket.on('user-connected', (connectedUser:ConnectedUser) => {
+      this.joinedId.next(connectedUser);
     })
     this.socket.on('user-disconnected', userId => {
       this.leavedId.next(userId);

@@ -1,17 +1,8 @@
-<div class="video-player"
-     [ngClass]="{'my-video': mode === 'owner'}">
-     <video #videoPlayer
-            muted></video>
-     <div class="action">
-          <img alt="Mute or Unmute"
-               *ngIf="micIconSrc"
-               class="icon"
-               (click)="muteOrUnMute()"
-               [src]="micIconSrc" />
-          <img alt="Camera On Or Off"
-               *ngIf="webCamIconSrc"
-               class="icon"
-               (click)="turnVideoOnOrOff()"
-               [src]="webCamIconSrc" />
+<div class="video-player">
+     <video #videoPlayer muted></video>
+     <div class="action" *ngIf="mode != 'owner'">
+          <i class="fa fa-bell action-icons " [ngClass]="{'fa-bell-slash ': isMute}" (click)="muteOrUnMute()"></i>
+          <i class="fa fa-video action-icons" [ngClass]="{'fa-video-slash': isHidden}" (click)="turnVideoOnOrOff()"></i>
      </div>
+     <div class="name-label">{{username || '---'}}</div>
 </div>

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import ApiEndpoint from "../../../utils/ApiEndpoint";
+import {ConnectedUser} from "../models/user.model";
 declare var Peer: any;
 export interface CallUser {
   peerId: string;
@@ -11,7 +12,7 @@ export interface CallUser {
 export class PeerService {
   public peer;
   public myPeerId: string;
-  public joinUser = new BehaviorSubject<CallUser>(null);
+  public joinUser = new BehaviorSubject<ConnectedUser>(null);
   public leaveUser = new BehaviorSubject<string>(null);
   public localStream: MediaStream;
   public currentPeer: any;
@@ -37,14 +38,15 @@ export class PeerService {
     });
   }
 
-  public call(anotherPeerId: string, stream: MediaStream): void {
-    var call = this.peer.call(anotherPeerId, stream);
-    this.handelCall(call, anotherPeerId);
+  public call(connectedUser: ConnectedUser, stream: MediaStream): void {
+    let call = this.peer.call(connectedUser.peerId, stream);
+    this.handelCall(call, connectedUser);
   }
 
-  public handelCall(call: any, anotherPeerId: string): void {
+  public handelCall(call: any, connectedUser: ConnectedUser): void {
     call.on('stream', (anotherStream: any) => {
-      this.joinUser.next({ peerId: anotherPeerId, stream: anotherStream });
+      connectedUser.stream = anotherStream;
+      this.joinUser.next(connectedUser);
       this.currentPeer = call.peerConnection;
     })
   }

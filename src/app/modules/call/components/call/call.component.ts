@@ -3,18 +3,26 @@ import {ActivatedRoute, Router} from '@angular/router';
 import Utils from 'src/app/utils/utils';
 import { CallUser, PeerService } from '../../services/peer.service';
 import { SocketService } from '../../services/socket.service';
+import {ConnectedUser} from "../../models/user.model";
+import LocalStorageUtil from "../../../../utils/local-storage";
+import {MediaService} from "../../services/media.service";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-call',
   templateUrl: './call.component.html',
-  styleUrls: ['./call.component.scss']
+  styleUrls: ['./call.component.scss'],
 })
 export class CallComponent implements OnInit, AfterViewInit {
-  public joinedUsers: CallUser[] = [];
+  public joinedUsers: ConnectedUser[] = [];
   public localStream: MediaStream;
   public roomId: string = '';
   public isHideChat = true;
   public isHideWhiteboard = true;
+  public myName: string = '';
+  public localStreamControls = new BehaviorSubject(null);
+  public micMuted: boolean = false;
+  public videoHidden: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -29,6 +37,7 @@ export class CallComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.roomId = this.activatedRoute.snapshot.paramMap.get('roomId');
+    this.myName = LocalStorageUtil.getString('username')
     Utils.getMediaStream({ video: true, audio: true }).then(stream => {
       this.localStream = stream;
       this.openPeer();
@@ -62,9 +71,9 @@ export class CallComponent implements OnInit, AfterViewInit {
   }
 
   private listenNewUserJoinRoom(): void {
-    this.socketService.joinedId.subscribe(newUserId => {
-      if (newUserId) {
-        this.makeCall(newUserId);
+    this.socketService.joinedId.subscribe((connectedUser:ConnectedUser) => {
+      if (connectedUser) {
+        this.makeCall(connectedUser);
       }
     })
   }
@@ -85,8 +94,8 @@ export class CallComponent implements OnInit, AfterViewInit {
     })
   }
 
-  private makeCall(anotherPeerId: string): void {
-    this.peerService.call(anotherPeerId, this.localStream);
+  private makeCall(connectedUser: ConnectedUser): void {
+    this.peerService.call(connectedUser, this.localStream);
   }
 
   private joinRoom(roomId: string, userPeerId: string): void {
@@ -126,12 +135,13 @@ export class CallComponent implements OnInit, AfterViewInit {
       this.isHideWhiteboard = !this.isHideWhiteboard
       this.socketService.whiteboard(this.isHideWhiteboard)
   }
-
-  sharePaths($event: any[]) {
-    
+  videoControls(){
+    this.videoHidden=!this.videoHidden
+    this.localStreamControls.next('video')
   }
-
-  hideOrUnhideUsers() {
+  micControls(){
+    this.micMuted=!this.micMuted
+    this.localStreamControls.next('audio')
 
   }
 }

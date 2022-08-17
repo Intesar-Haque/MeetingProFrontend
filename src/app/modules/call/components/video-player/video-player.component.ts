@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MediaService } from 'src/app/modules/call/services/media.service';
+import {BehaviorSubject} from "rxjs";
 @Component({
   selector: 'app-video-player',
   templateUrl: './video-player.component.html',
@@ -10,8 +11,10 @@ export class VideoPlayerComponent implements AfterViewInit, OnInit {
   @ViewChild('videoPlayer') videoElement?: any;
   @Input() mode: 'view' | 'owner' = 'view';
   @Input() stream: MediaStream;
-  public micIconSrc: string;
-  public webCamIconSrc: string;
+  @Input() username: string;
+  @Input() localStreamControls = new BehaviorSubject(null);
+  public isMute: boolean;
+  public isHidden: boolean;
   public videoElementRef: any;
 
   constructor(
@@ -20,14 +23,25 @@ export class VideoPlayerComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.mediaService.mode = this.mode;
-    this.micIconSrc = this.mediaService.getMicSrc();
-    this.webCamIconSrc = this.mediaService.getWebcamSrc();
+    this.isMute = this.mediaService.isMuted();
+    this.isHidden = this.mediaService.isVideoHidden();
   }
 
   ngAfterViewInit(): void {
     this.mediaService.stream = this.stream;
     this.videoElementRef = this.videoElement.nativeElement;
     if (this.mode === 'owner') {
+      this.localStreamControls.subscribe({
+        next:(value:string)=>{
+          if(value){
+            if(value=='video'){
+              this.turnVideoOnOrOff()
+            } else if(value=='audio'){
+              this.muteOrUnMute()
+            }
+          }
+        }
+      })
       this.videoElementRef.muted = true;
     }
     this.playVideo();
@@ -44,10 +58,10 @@ export class VideoPlayerComponent implements AfterViewInit, OnInit {
 
   private listenMediaControlChanges(): void {
     this.mediaService.isMute.subscribe(() => {
-      this.micIconSrc = this.mediaService.getMicSrc();
+      this.isMute = this.mediaService.isMuted();
     })
     this.mediaService.isCameraOff.subscribe(() => {
-      this.webCamIconSrc = this.mediaService.getWebcamSrc();
+      this.isHidden = this.mediaService.isVideoHidden();
     })
   }
 
