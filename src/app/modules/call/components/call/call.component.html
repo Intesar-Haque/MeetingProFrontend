@@ -9,29 +9,51 @@
     <i class="fa fa-phone-slash action-icons" [style.color]="'red'" (click)="hangUp()"></i>
 </div>
 <div class="call-container d-flex">
-    <div class="media-area s-12 m-9 l-10" [ngClass]="{'m-12 l-12 full-screen':  isHideChat && isHideUsers}"  *ngIf="!isHideShareScreen && isHideWhiteboard">
-        <app-video-player [mode]="'owner'"
-                          [stream]="screenStream"
-                          [username]="myName"
-                          class="my-video">
-        </app-video-player>
+    <div class="s-12 m-9 l-10" [ngClass]="{'m-12 l-12 full-screen':  isHideChat && isHideUsers}">
+        <div style="height: 60vh; background: var(--color-primary-deep);" [style.display]="(isHideWhiteboard && isHideShareScreen)?'none':'block'">
+            <div  style="height: 100%; width: 100%; max-height: 60vh ">
+                <app-white-board
+                    *ngIf="!isHideWhiteboard">
+                </app-white-board>
+                <app-video-player
+                    *ngIf="!isHideShareScreen"
+                    [mode]="'owner'"
+                    [stream]="screenStream"
+                    [username]="myName"
+                    class="my-video">
+                </app-video-player>
+            </div>
+        </div>
+        <div class="media-area" style="max-height: 40vh; width: auto; overflow-y: auto;" [style.max-height]="(isHideWhiteboard && isHideShareScreen)?'100vh':'40vh'">
+            <app-video-player *ngIf="localStream"
+                              [mode]="'owner'"
+                              [stream]="localStream"
+                              [username]="myName"
+                              [localStreamControls]="localStreamControls"
+                              class="my-video">
+            </app-video-player>
+            <app-video-player *ngFor="let user of joinedUsers"
+                              [stream]="user.stream"
+                              [username]="user.name">
+            </app-video-player>
+        </div>
     </div>
-    <div class="media-area s-12 m-9 l-10" [ngClass]="{'m-12 l-12 full-screen':  isHideChat && isHideUsers && isHideShareScreen}"  *ngIf="isHideWhiteboard && isHideShareScreen">
-        <app-video-player *ngIf="localStream"
-                          [mode]="'owner'"
-                          [stream]="localStream"
-                          [username]="myName"
-                          [localStreamControls]="localStreamControls"
-                          class="my-video">
-        </app-video-player>
-        <app-video-player *ngFor="let user of joinedUsers"
-                          [stream]="user.stream" [username]="user.name">
-        </app-video-player>
-    </div>
-    <div class=" s-12 m-9 l-10"
-         [ngClass]="{'m-12 l-12 full-screen': isHideChat && isHideUsers && isHideShareScreen}" *ngIf="!isHideWhiteboard && isHideShareScreen">
-        <app-white-board></app-white-board>
-    </div>
+<!--    <div class="media-area s-12 m-9 l-10" [ngClass]="{'m-12 l-12 full-screen':  isHideChat && isHideUsers && isHideShareScreen}"  *ngIf="isHideWhiteboard && isHideShareScreen">-->
+<!--        <app-video-player *ngIf="localStream"-->
+<!--                          [mode]="'owner'"-->
+<!--                          [stream]="localStream"-->
+<!--                          [username]="myName"-->
+<!--                          [localStreamControls]="localStreamControls"-->
+<!--                          class="my-video">-->
+<!--        </app-video-player>-->
+<!--        <app-video-player *ngFor="let user of joinedUsers"-->
+<!--                          [stream]="user.stream" [username]="user.name">-->
+<!--        </app-video-player>-->
+<!--    </div>-->
+<!--    <div class=" s-12 m-9 l-10"-->
+<!--         [ngClass]="{'m-12 l-12 full-screen': isHideChat && isHideUsers && isHideShareScreen}" *ngIf="!isHideWhiteboard && isHideShareScreen">-->
+<!--        <app-white-board></app-white-board>-->
+<!--    </div>-->
     <div [ngClass]="{'hide':isHideChat}"
          class="chat-container s-12 gm-3 l-2 p-0">
         <app-chat (isOpen)="hideOrUnhideChat()"></app-chat>
