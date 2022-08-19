@@ -11,4 +11,8 @@ export default class LocalStorageUtil {
     public static getJson(key) {
         return JSON.parse(JSON.stringify(localStorage.getItem(key)));
     }
+
+    public static clear() {
+        localStorage.clear()
+    }
 }

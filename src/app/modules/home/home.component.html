@@ -1,1 +1,24 @@
-<router-outlet></router-outlet>
+<div class="top-nav">
+    <div class="btn"
+        (click)="side_nav.classList.add('show-nav')"
+    ><i class="text-white fa fa-bars"></i></div>
+</div>
+<div class=" d-flex">
+    <div class="sidenav" #side_nav>
+        <div class="close-icon " (click)="side_nav.classList.remove('show-nav')"><i class="fa fa-times"></i> </div>
+        <img class="avatar mat-elevation-z8" [src]="noImage" alt="">
+        <h4 class="name">{{user?.name}}</h4>
+        <p class="designation">{{user?.designation}}</p>
+        <div class="sidenav-item" *ngFor="let item of menu; let i=index">
+            <i [class]="item.icon"></i><span>{{item.name}}</span>
+        </div>
+
+
+        <div class="sidenav-item" (click)="logout()">
+            <i class="fa fa-sign-out-alt"></i><span>Logout</span>
+        </div>
+    </div>
+    <div class="content">
+        <router-outlet></router-outlet>
+    </div>
+</div>
