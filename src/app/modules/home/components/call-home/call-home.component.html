@@ -1,0 +1,30 @@
+<app-title [title]="'Call'"></app-title>
+<div class="call-container">
+    <div class="call-item call-friend">
+        <div class="btn btn-proceed"><i class="fa fa-user-ninja"></i><span>Call Friend</span></div>
+    </div>
+    <div class="call-item call-group">
+        <div class="btn btn-proceed"><i class="fa fa-user-secret"></i><span>Group Call</span></div>
+    </div>
+    <div class="call-item call-open"  (click)="createRoom()">
+        <div class="btn btn-proceed"><i class="fa fa-users"></i><span>Conference Call</span></div>
+    </div>
+</div>
+
+<!--<div class="home flex-center">-->
+<!--    <div class="container-fluid join-meeting" >-->
+<!--        <div class="row mt-5">-->
+<!--            <div class="col-12 h2 mt-2 text-center">Join Meeting</div>-->
+<!--        </div>-->
+
+<!--        <div class="row mt-2 mb-2">-->
+<!--            <div class="d-flex">-->
+<!--                <input type="text" class="form-control" [(ngModel)]="roomId" placeholder="Enter Meeting ID...">-->
+<!--            </div>-->
+<!--            <div class="d-flex m-3">-->
+<!--                <button class="btn btn-proceed  m-auto" (click)="joinRoom()" [disabled]="!roomId || roomId == ''">Join Meeting</button>-->
+<!--                <button class="btn btn-proceed-outlined m-auto">Create new Room</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->

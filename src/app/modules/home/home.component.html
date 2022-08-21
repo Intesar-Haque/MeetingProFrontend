@@ -1,22 +1,37 @@
 <div class="top-nav">
-    <div class="btn"
-        (click)="side_nav.classList.add('show-nav')"
-    ><i class="text-white fa fa-bars"></i></div>
+    <div class="action-buttons">
+        <i class="fa fa-angle-left" (click)="side_nav.classList.remove('show-nav')"></i>
+        <i class="fa fa-angle-right" (click)="side_nav.classList.add('show-nav')"></i>
+    </div>
+<!--    <div class="search-bar">-->
+<!--        <input type="text" placeholder="Search..." class="form-control">-->
+<!--    </div>-->
+    <div class="right-action-buttons">
+        <i class="fa fa-bell"></i>
+        <img class="avatar" [src]="noImage" alt="">
+<!--        <div class="sidenav-item" (click)="logout()">-->
+<!--            <i class="fa fa-sign-out-alt"></i>-->
+<!--            &lt;!&ndash;            <span>Logout</span>&ndash;&gt;-->
+<!--        </div>-->
+    </div>
 </div>
 <div class=" d-flex">
-    <div class="sidenav" #side_nav>
-        <div class="close-icon " (click)="side_nav.classList.remove('show-nav')"><i class="fa fa-times"></i> </div>
-        <img class="avatar mat-elevation-z8" [src]="noImage" alt="">
-        <h4 class="name">{{user?.name}}</h4>
-        <p class="designation">{{user?.designation}}</p>
-        <div class="sidenav-item" *ngFor="let item of menu; let i=index">
-            <i [class]="item.icon"></i><span>{{item.name}}</span>
+    <div class="sidenav show-nav" #side_nav>
+<!--        <div class="close-icon show-nav" (click)="side_nav.classList.remove('show-nav')"><i class="fa fa-times"></i> </div>-->
+<!--        <img class="avatar mat-elevation-z8" [src]="noImage" alt="">-->
+<!--        <h4 class="name">{{user?.name}}</h4>-->
+<!--        <p class="designation">{{user?.designation}}</p>-->
+        <div class="sidenav-item"
+             *ngFor="let item of menu; let i=index"
+             (click)="navigate(item)"
+             [style.background-color]="item.selected?'var(--color-secondary-dark)':'transparent'">
+            <i [class]="item.icon"></i><br>
+            <span style="font-size: x-small">{{item.name}}</span>
+<!--            <span>{{item.name}}</span>-->
         </div>
 
 
-        <div class="sidenav-item" (click)="logout()">
-            <i class="fa fa-sign-out-alt"></i><span>Logout</span>
-        </div>
+
     </div>
     <div class="content">
         <router-outlet></router-outlet>

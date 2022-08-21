@@ -1,0 +1,10 @@
+<app-title [title]="'Calender'"></app-title>
+<div class="btn-float mt-4 float-right"><i class="fa fa-calendar-alt"></i><span class="ms-1">Schdeule</span></div>
+<div class="calender">
+    <ul class="weekdays">
+        <li *ngFor="let weekDay of weekDays">{{weekDay}}</li>
+    </ul>
+    <ul class="days">
+        <li *ngFor="let day of daysInMonth"><span [ngClass]="{'today':day==today}">{{day}}</span></li>
+    </ul>
+</div>

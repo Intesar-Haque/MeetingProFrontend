@@ -7,16 +7,5 @@ import Utils from 'src/app/utils/utils';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  constructor(private router: Router) { }
-  roomId:string;
 
-  public createRoom(): void {
-    const roomId = Utils.genRoomId();
-    this.router.navigateByUrl(`/call/${roomId}`)
-  }
-
-  joinRoom() {
-    this.router.navigateByUrl(`/call/${this.roomId}`)
-
-  }
 }

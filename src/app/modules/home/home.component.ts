@@ -13,17 +13,30 @@ export class HomeComponent implements OnInit {
 
   showSidebar:boolean = false;
   menu = [{
-    name:'Dashboard',
+    name:'Home',
     icon:'fa fa-home',
-    route:''
+    route:'/',
+    selected:true,
   },{
-    name:'Profile',
-    icon:'fa fa-user',
-    route:''
+    name:'Group',
+    icon:'fa fa-users',
+    route:'/group',
+    selected:false,
   },{
-    name:'About',
-    icon:'fa fa-question',
-    route:''
+    name:'Calender',
+    icon:'fa fa-calendar-alt',
+    route:'/calender',
+    selected:false,
+  },{
+    name:'Call',
+    icon:'fa fa-phone',
+    route:'/call',
+    selected:false,
+  },{
+    name:'Messages',
+    icon:'fa fa-comments',
+    route:'/chat',
+    selected:false,
   }];
   user: {
     name?:string;
@@ -43,6 +56,14 @@ export class HomeComponent implements OnInit {
   logout() {
     LocalStorageUtil.clear()
     this.route.navigate(['/login']);
+
+  }
+
+  navigate(item) {
+    this.menu.forEach(i=>{i.selected=false})
+    item.selected=true
+    this.route.navigate([item.route]);
+    console.log(this.menu)
 
   }
 }
