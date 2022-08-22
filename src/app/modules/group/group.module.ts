@@ -4,16 +4,13 @@ import {TooltipModule} from 'ngx-bootstrap/tooltip';
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {BsDropdownConfig, BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {BsDatepickerConfig, BsDatepickerModule} from "ngx-bootstrap/datepicker";
+import {GroupHomeComponent} from "./components/group-home/group-home.component";
 import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
-import {CallComponent} from "../meeting/components/call/call.component";
-import {CallHomeComponent} from "./components/call-home/call-home.component";
-
-
 
 @NgModule({
     declarations: [
-        CallHomeComponent
+        GroupHomeComponent
     ],
     providers: [ BsDatepickerConfig, BsDropdownConfig],
     imports: [
@@ -22,7 +19,7 @@ import {CallHomeComponent} from "./components/call-home/call-home.component";
         RouterModule.forChild([
             {
                 path: '',
-                component: CallHomeComponent
+                component: GroupHomeComponent
             }
         ]),
         BsDatepickerModule.forRoot(),
@@ -35,6 +32,6 @@ import {CallHomeComponent} from "./components/call-home/call-home.component";
     ]
 
 })
-export class CallModule {
+export class GroupModule {
 
 }

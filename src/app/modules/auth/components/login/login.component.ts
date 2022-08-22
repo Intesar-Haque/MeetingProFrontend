@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import LocalStorageUtil from "../../../../utils/local-storage";
 import Utils from "../../../../utils/utils";
-import {AppAuthService} from "../../../../app-auth.service";
+import {AppAuthService} from "../../../../common-services/app-auth.service";
 
 @Component({
   selector: 'app-login',
