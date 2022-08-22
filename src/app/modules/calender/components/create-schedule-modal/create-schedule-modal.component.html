@@ -1,0 +1,33 @@
+<div class="modal-header align-items-center">
+    <span>{{title}}</span>
+    <i class="fa fa-times pointer" aria-label="Close" (click)="modalRef.hide()" ></i>
+</div>
+<div class="modal-body">
+
+    <form [formGroup]="form">
+        <div class="d-flex flex-column">
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" class="form-control" formControlName="title" placeholder="Enter Title....">
+                <small class="error-text" *ngIf="form.controls.title.dirty && this.form.controls.title.errors">Title is Required</small>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea type="text" class="form-control" rows="3" formControlName="description" placeholder="Enter Group Purpose....">
+                </textarea>
+                <small class="error-text" *ngIf="form.controls.description.dirty && form.controls.description.errors">Description is Required</small>
+            </div>
+            <bs-datepicker-container type="text" class="form-control"  ></bs-datepicker-container>
+            <div class="form-group">
+                <span><label>All Day</label><input class="form-control" type="radio"></span>
+            </div>
+        </div>
+    </form>
+    <div class="d-flex justify-content-end mt-3 me-2">
+        <button class="btn btn-proceed-outlined" (click)="modalRef.hide()">Close</button>
+        <!--        <button class="btn btn-proceed-outlined ms-3" (click)="save()">Save</button>-->
+        <button class="btn btn-proceed ms-3" (click)="save(true)" [disabled]="form.invalid">{{title}}</button>
+    </div>
+
+</div>
+
