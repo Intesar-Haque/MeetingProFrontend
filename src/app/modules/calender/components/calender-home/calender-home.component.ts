@@ -10,10 +10,16 @@ declare var moment: any;
 })
 export class CalenderHomeComponent implements OnInit {
   weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  weekDaysMobile = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
 
   months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   daysInMonth: number[]=[];
   today: number;
+  private schedules={
+    11:3,
+    27:4
+
+  };
 
   constructor() {
   }
@@ -27,4 +33,11 @@ export class CalenderHomeComponent implements OnInit {
   }
 
 
+  getSchedule(day: number) {
+    return this.schedules[day]? `${this.schedules[day]} Events Scheduled `:null
+  }
+
+  openModal() {
+
+  }
 }

@@ -7,3 +7,13 @@
     padding: 1rem 2rem;
   }
 }
+@media (max-width: 719px) {
+  .content{
+    .title{
+      font-size: large;
+      font-weight: 800;
+      color: var(--color-secondary);
+      padding: 1rem 2rem;
+    }
+  }
+}

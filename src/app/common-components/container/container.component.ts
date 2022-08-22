@@ -10,7 +10,7 @@ import Utils from "../../utils/utils";
 })
 export class ContainerComponent implements OnInit {
 
-  current = '';
+  current = 'Groups';
   menu = [{
     name:'Home',
     icon:'fa fa-home',
@@ -51,8 +51,8 @@ export class ContainerComponent implements OnInit {
     this.user.designation = LocalStorageUtil.getString('designation')
     this.user.img = LocalStorageUtil.getString('user-image')
     this.noImage = Utils.noImage
-    this.route.navigate(['/']);
-    this.current = 'Dashboard';
+    // this.route.navigate(['/']);
+    // this.current = 'Dashboard';
   }
 
   logout() {

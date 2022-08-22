@@ -1,36 +1,36 @@
-import { NgModule } from "@angular/core";
-import {FormsModule} from "@angular/forms";
-import {TooltipModule} from 'ngx-bootstrap/tooltip';
-import {ModalModule} from 'ngx-bootstrap/modal';
-import {BsDropdownConfig, BsDropdownModule} from 'ngx-bootstrap/dropdown';
-import {BsDatepickerConfig, BsDatepickerModule} from "ngx-bootstrap/datepicker";
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from "@angular/core";
 import {GroupHomeComponent} from "./components/group-home/group-home.component";
-import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
+import {SharedModule} from "../../common-modules/shared.module";
+import { CreateJoinModalComponent } from './components/create-join-modal/create-join-modal.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {AngularMultiSelectModule} from "angular2-multiselect-dropdown";
 
+const routes = [
+    {
+        path: '',
+        component: GroupHomeComponent
+    }
+]
 @NgModule({
     declarations: [
-        GroupHomeComponent
+        GroupHomeComponent,
+        CreateJoinModalComponent
     ],
-    providers: [ BsDatepickerConfig, BsDropdownConfig],
     imports: [
+        SharedModule,
+        RouterModule.forChild(routes),
+        AngularMultiSelectModule,
+        ReactiveFormsModule,
         FormsModule,
-        CommonModule,
-        RouterModule.forChild([
-            {
-                path: '',
-                component: GroupHomeComponent
-            }
-        ]),
-        BsDatepickerModule.forRoot(),
-        BsDropdownModule,
-        ModalModule,
-        TooltipModule,
     ],
     exports: [
         RouterModule
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    entryComponents:[
+        CreateJoinModalComponent,
     ]
-
 })
 export class GroupModule {
 

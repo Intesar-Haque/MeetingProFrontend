@@ -97,10 +97,8 @@
   margin-left: 5%;
   max-height: 99vh;
 }
-@media (max-width: 800px) {
-  .top-nav{
-    display: block;
-  }
+
+@media (max-width: 900px) {
   .sidenav {
     width: 15%;
     .close-icon{
@@ -111,5 +109,4 @@
     margin-top: 10%;
     margin-left: 0;
   }
-
 }

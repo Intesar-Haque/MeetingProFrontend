@@ -1,10 +1,14 @@
-<app-title [title]="'Calender'"></app-title>
-<div class="btn-float mt-4 float-right"><i class="fa fa-calendar-alt"></i><span class="ms-1">Schdeule</span></div>
+<div class="btn-float mt-4 float-right" (click)="openModal()">
+    <i class="fa fa-calendar-alt"></i><span class="ms-1">Schedule</span>
+</div>
 <div class="calender">
     <ul class="weekdays">
-        <li *ngFor="let weekDay of weekDays">{{weekDay}}</li>
+        <li *ngFor="let weekDay of weekDaysMobile">{{weekDay}}</li>
     </ul>
     <ul class="days">
-        <li *ngFor="let day of daysInMonth"><span [ngClass]="{'today':day==today}">{{day}}</span></li>
+        <li *ngFor="let day of daysInMonth" [ngClass]="{'hasSchedule':getSchedule(day)}">
+            <span [ngClass]="{'today':day==today}">{{day}}</span>
+            <div class="schedules">{{getSchedule(day)}}</div>
+        </li>
     </ul>
 </div>

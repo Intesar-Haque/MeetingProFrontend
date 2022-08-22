@@ -99,11 +99,56 @@
 .btn-float:hover, .btn-proceed:hover, .btn-proceed-outlined:hover, .btn-dismiss:hover{
   opacity: 1;
 }
-.btn-float:hover, .btn-proceed:disabled, .btn-proceed-outlined:disabled, .btn-dismiss:disabled{
+.btn-float:disabled, .btn-proceed:disabled, .btn-proceed-outlined:disabled, .btn-dismiss:disabled{
   pointer-events: none;
   opacity: .5;
 }
+.pointer{
+  cursor: pointer;
+}
+.error-text{
+  color:red;
+}
+angular2-multiselect .dropdown-list{
+  min-width: 150px !important;
+  padding-top: 0 !important;
+}angular2-multiselect .selected-list{
+   border: 1px solid gainsboro;
+   border-radius: 5px;
+}
+angular2-multiselect .arrow-up{
+  display: none;
+}
+angular2-multiselect .arrow2{
+  display: none;
+}
+.dropdown-table .c-btn{
+  background: #FBFBFB;
+  border: 1px solid #63B1EF;
+  border-radius: 4px;
+}
 
+.dropdown-table .c-btn span{
+  max-width: 15ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
+.c-angle-down,.c-angle-up {
+  width: 10px !important;
+  height: 8px !important;
+}
+.dropdown-item{
+  cursor: pointer;
+}
+@media (max-width: 719px) {
+  .btn-float{
+    span{
+      display: none;
+    }
+  }
+}
 @import url(assets/scss/grid.scss);
 @import url(assets/scss/icons.scss);
+@import url(assets/scss/modal.scss);
