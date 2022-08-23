@@ -47,7 +47,7 @@ export class WhiteBoardComponent implements OnInit {
     let i = this.svgPaths.length - 1;
     if (this.pointCount < 3 && this.pointCount > 1) {
       for (let j = this.pointCount; j <= 3; j++) {
-        this.path += `,${$event.offsetX},${$event.offsetY}`;
+        this.path += ` ${$event.offsetX} ${$event.offsetY}`;
       }
       this.svgPaths[i].path = this.path;
     }
