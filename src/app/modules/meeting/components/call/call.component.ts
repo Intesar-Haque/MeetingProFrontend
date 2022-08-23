@@ -64,6 +64,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.modalRef = this.modalService.show(MeetingJoinModalComponent, initialState);
       this.modalRef.content.nameUpdateEvent.subscribe(res => {
         this.myName = res
+        LocalStorageUtil.setInfo('username',res)
         this.startMeeting()
       })
     } else {
@@ -167,7 +168,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
           if(user.name == undefined){
             let idx = this.preExistingUsers.findIndex(u=>u.peerId === user.peerId);
             if(idx>-1){
-              user.name = this.preExistingUsers[idx]
+              user.name = this.preExistingUsers[idx].name
             }
           }
           this.joinedUsers.push(user);

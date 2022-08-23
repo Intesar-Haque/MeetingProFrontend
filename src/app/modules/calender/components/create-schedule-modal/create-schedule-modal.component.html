@@ -8,18 +8,26 @@
         <div class="d-flex flex-column">
             <div class="form-group">
                 <label>Title</label>
-                <input type="text" class="form-control" formControlName="title" placeholder="Enter Title....">
+                <input type="text" class="form-control pt-1" formControlName="title" placeholder="Enter Title....">
                 <small class="error-text" *ngIf="form.controls.title.dirty && this.form.controls.title.errors">Title is Required</small>
             </div>
             <div class="form-group">
                 <label>Description</label>
-                <textarea type="text" class="form-control" rows="3" formControlName="description" placeholder="Enter Group Purpose....">
+                <textarea type="text" class="form-control pt-1" rows="3" formControlName="description" placeholder="Enter Description...">
                 </textarea>
                 <small class="error-text" *ngIf="form.controls.description.dirty && form.controls.description.errors">Description is Required</small>
             </div>
-            <bs-datepicker-container type="text" class="form-control"  ></bs-datepicker-container>
             <div class="form-group">
-                <span><label>All Day</label><input class="form-control" type="radio"></span>
+                <label>Schedule Date</label>
+                <input  placeholder="Pick Date"
+                        class="form-control"
+                        bsDatepicker
+                        [formControlName]="'date'"
+                        [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD'}">
+                <small class="error-text" *ngIf="form.controls.date.dirty && form.controls.date.errors">Date is Required</small>
+            </div>
+            <div class="form-group d-flex">
+                <input class="form-check-inline me-1" formControlName="allDay" type="checkbox" id="allDay" checked><label class="form-check-label" for="allDay">All Day</label>
             </div>
         </div>
     </form>

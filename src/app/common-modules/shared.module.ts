@@ -3,16 +3,18 @@ import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TooltipModule} from 'ngx-bootstrap/tooltip';
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {BsDropdownConfig, BsDropdownModule} from 'ngx-bootstrap/dropdown';
-import {BsDatepickerConfig, BsDatepickerModule} from "ngx-bootstrap/datepicker";
+import {BsDatepickerConfig, BsDatepickerModule, DatepickerConfig, DatepickerModule} from "ngx-bootstrap/datepicker";
 import {CommonModule} from "@angular/common";
 import {AngularMultiSelectModule} from "angular2-multiselect-dropdown";
+import {TimepickerModule} from "ngx-bootstrap/timepicker";
 
 @NgModule({
     declarations: [],
-    providers: [ BsDatepickerConfig, BsDropdownConfig],
+    providers: [ BsDropdownConfig],
     imports: [
         CommonModule,
         BsDatepickerModule.forRoot(),
+        TimepickerModule.forRoot(),
         BsDropdownModule,
         ModalModule,
         TooltipModule,

@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {formatDate} from '@angular/common';
+import {BsModalService, ModalOptions} from "ngx-bootstrap/modal";
+import {MeetingJoinModalComponent} from "../../../meeting/components/meeting-join-modal/meeting-join-modal.component";
+import LocalStorageUtil from "../../../../utils/local-storage";
+import {CreateScheduleModalComponent} from "../create-schedule-modal/create-schedule-modal.component";
 
 declare var $: any;
 declare var moment: any;
@@ -21,7 +25,7 @@ export class CalenderHomeComponent implements OnInit {
 
   };
 
-  constructor() {
+  constructor(private modalService:BsModalService) {
   }
 
   ngOnInit() {
@@ -38,6 +42,11 @@ export class CalenderHomeComponent implements OnInit {
   }
 
   openModal() {
-
+    const initialState: ModalOptions = {
+      initialState: {} as Partial<Object> ,
+      class: 'modal-l',
+      ignoreBackdropClick:true
+    };
+    this.modalService.show(CreateScheduleModalComponent, initialState);
   }
 }

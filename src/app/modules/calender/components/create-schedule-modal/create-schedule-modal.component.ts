@@ -22,8 +22,8 @@ export class CreateScheduleModalComponent implements OnInit {
       id: [''],
       title: ['', [Validators.required]],
       description: [''],
-      from:['',[Validators.required]],
-      to: ['',[Validators.required]],
+      date:['',[Validators.required]],
+      allDay: [true,[Validators.required]],
     });
   }
 

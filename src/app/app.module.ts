@@ -9,6 +9,7 @@ import {ModalModule} from "ngx-bootstrap/modal";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AngularMultiSelectModule} from "angular2-multiselect-dropdown";
 import {HttpClientModule} from "@angular/common/http";
+import {BsDatepickerModule, BsLocaleService, DatepickerModule} from "ngx-bootstrap/datepicker";
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +21,7 @@ import {HttpClientModule} from "@angular/common/http";
     AppRoutingModule,
     BrowserAnimationsModule,
     ModalModule.forRoot(),
+    DatepickerModule.forRoot(),BsDatepickerModule.forRoot(),
     FormsModule, ReactiveFormsModule,
     HttpClientModule,
     AngularMultiSelectModule

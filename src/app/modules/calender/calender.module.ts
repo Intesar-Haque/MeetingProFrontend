@@ -5,8 +5,7 @@ import { RouterModule} from "@angular/router";
 import { HttpClientModule } from '@angular/common/http';
 import {CalenderHomeComponent} from "./components/calender-home/calender-home.component";
 import { CreateScheduleModalComponent } from './components/create-schedule-modal/create-schedule-modal.component';
-import {AngularMultiSelectModule} from "angular2-multiselect-dropdown";
-import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
+import {SharedModule} from "../../common-modules/shared.module";
 
 @NgModule({
     declarations: [
@@ -21,15 +20,15 @@ import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
                 component: CalenderHomeComponent
             }
         ]),
+        SharedModule,
         CommonModule,
-        FormsModule,
         HttpClientModule,
-        ReactiveFormsModule,
-        AngularMultiSelectModule,
-        BsDatepickerModule
     ],
     exports: [
         RouterModule
+    ],
+    entryComponents:[
+        CreateScheduleModalComponent
     ]
 })
 export class CalenderModule {
