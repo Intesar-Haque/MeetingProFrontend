@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {BsModalService, ModalOptions} from "ngx-bootstrap/modal";
 import {CreateJoinModalComponent} from "../create-join-modal/create-join-modal.component";
 import {PageRequest} from "../../../../common-models/PageRequest";
-import {GroupService} from "../../services/group.service";
+import {GroupService} from "../../../../services/group.service";
 
 @Component({
   selector: 'app-group-home',

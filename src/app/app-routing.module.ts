@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {AppAuthService} from "./common-services/app-auth.service";
+import {AppAuthService} from "./services/app-auth.service";
 import {ContainerComponent} from "./common-components/container/container.component";
 
 const routes: Routes = [
@@ -24,7 +24,6 @@ const routes: Routes = [
   },
   {
     path: 'room/:roomId',
-    canActivate: [AppAuthService],
     loadChildren: () => import('./modules/meeting/meeting.module').then(c => c.MeetingModule)
   },
   {

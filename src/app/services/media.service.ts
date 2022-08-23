@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { MediaIconUrl } from '../data/media-icon';
+import { MediaIconUrl } from '../modules/meeting/data/media-icon';
 @Injectable()
 export class MediaService {
   public stream: MediaStream;

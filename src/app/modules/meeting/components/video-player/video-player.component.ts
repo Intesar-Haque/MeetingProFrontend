@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MediaService } from 'src/app/modules/meeting/services/media.service';
+import { MediaService } from 'src/app/services/media.service';
 import {BehaviorSubject} from "rxjs";
 @Component({
   selector: 'app-video-player',

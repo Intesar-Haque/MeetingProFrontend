@@ -3,8 +3,6 @@ import {GroupHomeComponent} from "./components/group-home/group-home.component";
 import {RouterModule} from "@angular/router";
 import {SharedModule} from "../../common-modules/shared.module";
 import { CreateJoinModalComponent } from './components/create-join-modal/create-join-modal.component';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AngularMultiSelectModule} from "angular2-multiselect-dropdown";
 
 const routes = [
     {
@@ -20,9 +18,6 @@ const routes = [
     imports: [
         SharedModule,
         RouterModule.forChild(routes),
-        AngularMultiSelectModule,
-        ReactiveFormsModule,
-        FormsModule,
     ],
     exports: [
         RouterModule

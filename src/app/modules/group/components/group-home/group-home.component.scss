@@ -1,5 +1,6 @@
 .group-container{
   display: flex;
+  max-width: 100%;
   .group-item{
     .name{
       font-size: small;
@@ -26,4 +27,18 @@
 }
 .dropdown-menu{
   transform: translateX(-6.2rem)!important;
+  span:active, span:focus{
+    background-color: var(--color-secondary);
+  }
+}
+@media (max-width: 719px) {
+  .group-container {
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 85vh;
+    .group-item {
+      margin: 1rem auto;
+
+    }
+  }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import ApiEndpoint from "../../../common-services/ApiEndpoint";
-import {PageRequest} from "../../../common-models/PageRequest";
+import ApiEndpoint from "./ApiEndpoint";
+import {PageRequest} from "../common-models/PageRequest";
 
 @Injectable({
   providedIn: 'root'

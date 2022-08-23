@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import io, { Socket } from 'socket.io-client';
-import ApiEndpoint from "../../../common-services/ApiEndpoint";
-import {ConnectedUser} from "../models/user.model";
-import LocalStorageUtil from "../../../utils/local-storage";
+import ApiEndpoint from "./ApiEndpoint";
+import {ConnectedUser} from "../modules/meeting/models/user.model";
+import LocalStorageUtil from "../utils/local-storage";
 
 @Injectable()
 export class SocketService {

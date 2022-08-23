@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import { SocketService } from 'src/app/modules/meeting/services/socket.service';
+import { SocketService } from 'src/app/services/socket.service';
 import { Chat } from '../../models/chat.model';
 import LocalStorageUtil from "../../../../utils/local-storage";
 

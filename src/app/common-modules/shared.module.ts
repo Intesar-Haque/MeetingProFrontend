@@ -16,6 +16,9 @@ import {AngularMultiSelectModule} from "angular2-multiselect-dropdown";
         BsDropdownModule,
         ModalModule,
         TooltipModule,
+        AngularMultiSelectModule,
+        ReactiveFormsModule,
+        FormsModule,
     ],
     exports: [
         CommonModule,
@@ -23,6 +26,9 @@ import {AngularMultiSelectModule} from "angular2-multiselect-dropdown";
         BsDropdownModule,
         ModalModule,
         TooltipModule,
+        AngularMultiSelectModule,
+        ReactiveFormsModule,
+        FormsModule,
     ]
 
 })

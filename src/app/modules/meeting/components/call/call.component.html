@@ -1,19 +1,18 @@
 <div class="chat-cion" [ngClass]="{'icon-chat-show-mobile': !isHideChat}">
-    <i class="fa fa-chalkboard action-icons" (click)="whiteboard()"></i>
+    <i class="fa fa-chalkboard action-icons" (click)="whiteboard()" *ngIf="hasWhiteboardPermission()"></i>
     <i class="fa fa-comment action-icons" (click)="hideOrUnhideChat()" [ngClass]="{'fa-comment-slash': !isHideChat}"></i>
     <i class="fa fa-users action-icons" (click)="hideOrUnhideUsers()"></i>
     <div style="height:1rem; border-left:1px solid white; display: inline-flex"></div>
     <i class="fa fa-video action-icons" (click)="videoControls()" [ngClass]="{'fa-video-slash ': videoHidden}"></i>
     <i class="fa fa-microphone action-icons" (click)="micControls()" [ngClass]="{'fa-microphone-slash ': micMuted}"></i>
-    <i class="fa fa-desktop action-icons" (click)="screenShare()" ></i>
+    <i class="fa fa-desktop action-icons" (click)="screenShare()" *ngIf="hasScreenSharePermission()"></i>
     <i class="fa fa-phone-slash action-icons" [style.color]="'red'" (click)="hangUp()"></i>
 </div>
 <div class="call-container d-flex">
     <div class="s-12 m-9 l-10" [ngClass]="{'m-12 l-12 full-screen':  isHideChat && isHideUsers}">
         <div style="height: 60vh; background: var(--color-primary-deep);" [style.display]="(isHideWhiteboard && isHideShareScreen)?'none':'block'">
             <div  style="height: 100%; width: 100%; max-height: 60vh ">
-                <app-white-board
-                    *ngIf="!isHideWhiteboard">
+                <app-white-board [permission]="hasWhiteboardDrawPermission()" *ngIf="!isHideWhiteboard">
                 </app-white-board>
                 <app-video-player
                     *ngIf="!isHideShareScreen"

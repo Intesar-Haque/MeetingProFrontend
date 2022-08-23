@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {SocketService} from "../../services/socket.service";
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {SocketService} from "../../../../services/socket.service";
 
 @Component({
   selector: 'app-white-board',
@@ -20,6 +20,7 @@ export class WhiteBoardComponent implements OnInit {
   pointCount = 1;
   path = '';
 
+  @Input('permission') canDraw:boolean;
   @ViewChild('board') board: ElementRef = new ElementRef(null);
   @ViewChild('svg') svgElem: ElementRef = new ElementRef(null);
   @ViewChild('color') colorPicker: ElementRef = new ElementRef(null);
@@ -35,41 +36,47 @@ export class WhiteBoardComponent implements OnInit {
   }
 
   prepareDrawing($event: MouseEvent) {
-    let pathD = `M${$event.offsetX},${$event.offsetY},L${$event.offsetX},${$event.offsetY}`;
-    this.svgPaths.push({path:pathD,strokeColor:this.pathCss.strokeColor,strokeWidth:this.pathCss.strokeWidth});
-    this.pointCount = 1;
-    this.path = '';
-    this.startDraw = true;
+    if(this.canDraw){
+      let pathD = `M${$event.offsetX},${$event.offsetY},L${$event.offsetX},${$event.offsetY}`;
+      this.svgPaths.push({path:pathD,strokeColor:this.pathCss.strokeColor,strokeWidth:this.pathCss.strokeWidth});
+      this.pointCount = 1;
+      this.path = '';
+      this.startDraw = true;
+    }
   }
 
   stopDrawing($event: MouseEvent) {
-    this.startDraw = false;
-    let i = this.svgPaths.length - 1;
-    if (this.pointCount < 3 && this.pointCount > 1) {
-      for (let j = this.pointCount; j <= 3; j++) {
-        this.path += ` ${$event.offsetX} ${$event.offsetY}`;
+    if(this.canDraw) {
+      this.startDraw = false;
+      let i = this.svgPaths.length - 1;
+      if (this.pointCount < 3 && this.pointCount > 1) {
+        for (let j = this.pointCount; j <= 3; j++) {
+          this.path += ` ${$event.offsetX} ${$event.offsetY}`;
+        }
+        this.svgPaths[i].path = this.path;
       }
-      this.svgPaths[i].path = this.path;
+      this.socketService.draw(this.svgPaths)
     }
-    this.socketService.draw(this.svgPaths)
   }
 
 
 
   startDrawing($event: MouseEvent) {
-    if (!this.startDraw) return;
-    let i = this.svgPaths.length - 1;
-    if (this.pointCount === 1) {
-      this.path = this.svgPaths[i].path;
-      this.path += `,C${$event.offsetX},${$event.offsetY}`;
-      this.pointCount += 1;
-    } else if (this.pointCount <= 3) {
-      this.path += `,${$event.offsetX},${$event.offsetY}`;
-      this.pointCount += 1;
-    } else if (this.pointCount > 3) {
-      this.pointCount = 1;
-      this.svgPaths[i].path = this.path;
-      this.path = '';
+    if(this.canDraw) {
+      if (!this.startDraw) return;
+      let i = this.svgPaths.length - 1;
+      if (this.pointCount === 1) {
+        this.path = this.svgPaths[i].path;
+        this.path += `,C${$event.offsetX},${$event.offsetY}`;
+        this.pointCount += 1;
+      } else if (this.pointCount <= 3) {
+        this.path += `,${$event.offsetX},${$event.offsetY}`;
+        this.pointCount += 1;
+      } else if (this.pointCount > 3) {
+        this.pointCount = 1;
+        this.svgPaths[i].path = this.path;
+        this.path = '';
+      }
     }
   }
 

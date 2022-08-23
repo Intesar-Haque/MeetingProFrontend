@@ -2,7 +2,8 @@
     <svg #svg class="white-board-element"
          (mousedown)="prepareDrawing($event)"
          (mousemove)="startDrawing($event)"
-         (mouseup)="stopDrawing($event)">
+         (mouseup)="stopDrawing($event)"
+    >
         <path *ngFor="let p of svgPaths" class="draw-path" [style.stroke-width]="p.strokeWidth" [style.stroke]="p.strokeColor" [attr.d]="p.path"></path>
     </svg>
     <div style="position: absolute;bottom: auto;top: 20px;left: 0;right: auto;padding: 10px;">

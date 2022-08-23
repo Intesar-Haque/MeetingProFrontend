@@ -1,0 +1,18 @@
+<div class="modal-header align-items-center">
+    <span>Join Meeting</span>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form">
+        <div class="form-group">
+            <label>Join with name</label>
+            <input type="text" class="form-control" formControlName="name" placeholder="Enter Name....">
+            <small class="error-text" *ngIf="form.controls.name.dirty && form.controls.name.errors">Name is Required</small>
+        </div>
+    </form>
+    <div class="d-flex justify-content-end mt-3 me-2">
+        <button class="btn btn-proceed me-2" (click)="join()" [disabled]="form.invalid">Join Meeting</button>
+        <span class="mt-1">&nbsp;OR&nbsp;</span>
+        <button class="btn btn-proceed ms-2" (click)="login()">Login</button>
+    </div>
+</div>
+

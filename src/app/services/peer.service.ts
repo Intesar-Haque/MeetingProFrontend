@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import ApiEndpoint from "../../../common-services/ApiEndpoint";
-import {ConnectedUser} from "../models/user.model";
+import ApiEndpoint from "./ApiEndpoint";
+import {ConnectedUser} from "../modules/meeting/models/user.model";
 declare var Peer: any;
 export interface CallUser {
   peerId: string;
@@ -25,11 +25,12 @@ export class PeerService {
       })
   }
 
-  public openPeer(stream: MediaStream): Promise<string> {
+  public openPeer(stream: MediaStream, uerPeerId:string): Promise<string> {
     return new Promise<string>((resolve) => {
       this.getTurnServeConfig().subscribe(data => {
+        this.myPeerId = uerPeerId
         this.initPeer(data.v);
-        this.peer.on('open', (uerPeerId: string) => {
+        this.peer.on('open', uerPeerId => {
           this.myPeerId = uerPeerId
           this.handleInComingCall(stream);
           resolve(uerPeerId);
@@ -53,7 +54,6 @@ export class PeerService {
 
   private handleInComingCall(stream: MediaStream): void {
     this.peer.on('call', call => {
-      console.log(call)
       call.answer(stream);
       call.on('stream', (anotherStream: any) => {
         this.joinUser.next({ peerId: call.peer, stream: anotherStream });

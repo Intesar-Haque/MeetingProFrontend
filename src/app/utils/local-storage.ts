@@ -8,6 +8,10 @@ export default class LocalStorageUtil {
         return localStorage.getItem(key);
     }
 
+    public static hasToken(): boolean {
+        return !!localStorage.getItem('token');
+    }
+
     public static getJson(key) {
         return JSON.parse(JSON.stringify(localStorage.getItem(key)));
     }
