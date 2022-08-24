@@ -13,6 +13,7 @@ import {AppAuthService} from "../../../../services/app-auth.service";
 export class LoginComponent implements OnInit {
   visibility: boolean = false;
   loginForm: FormGroup;
+  showLoginAnim: boolean = false;
 
   constructor(
       private router: Router,
@@ -30,7 +31,13 @@ export class LoginComponent implements OnInit {
     if(this.loginForm.valid){
       LocalStorageUtil.setInfo('token', Utils.genRoomId()); // TODO: Call api and set token
       LocalStorageUtil.setInfo('username', this.loginForm.value.username); // TODO: Call api and set token
-      this.router.navigate(['/'])
+      this.showLoginAnim= true;
+      setTimeout(()=> {
+        this.showLoginAnim = false
+        this.router.navigate(['/'])
+      }, 2000)
+
+
     }
   }
 }

@@ -1,3 +1,4 @@
+<ngx-spinner name="ui-loader" bdColor="rgba(51,51,51,0.8)" [template]="template"> </ngx-spinner>
 <div class="top-nav">
     <div class="action-buttons">
         <i class="fa fa-angle-left" (click)="side_nav.classList.remove('show-nav')"></i>
@@ -5,7 +6,25 @@
     </div>
     <div class="right-action-buttons">
         <i class="fa fa-bell"></i>
-        <img class="avatar" [src]="noImage" alt="">
+        <div class="btn-group options" dropdown #dropdown="bs-dropdown">
+            <i dropdownToggle class="fa fa-cog"></i>
+            <ul *dropdownMenu class="dropdown-menu" role="menu">
+                <li role="menuitem" class="dropdown-header">Change Theme</li>
+                <li role="menuitem"><a class="dropdown-item" (click)="changeStyle('default')">Default</a></li>
+                <li role="menuitem"><a class="dropdown-item" (click)="changeStyle('blue')">Blue</a></li>
+                <li role="menuitem"><a class="dropdown-item" (click)="changeStyle('green')">Green</a></li>
+                <li role="menuitem"><a class="dropdown-item" (click)="changeStyle('purple')">Purple</a></li>
+                <li role="menuitem"><a class="dropdown-item" (click)="changeStyle('bKash')">bKash</a></li>
+            </ul>
+        </div>
+        <div class="btn-group options" dropdown #dropdown="bs-dropdown">
+            <img dropdownToggle class="avatar" [src]="noImage" alt="">
+            <ul *dropdownMenu class="dropdown-menu" role="menu">
+                <li role="menuitem"><a class="dropdown-item" href="#"><i class="fa fa-user"></i>Profile</a></li>
+                <li role="menuitem"><a class="dropdown-item" (click)="logout()"><i class="fa fa-sign-out-alt"></i>Logout</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 <div class=" d-flex">

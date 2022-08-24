@@ -10,6 +10,13 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AngularMultiSelectModule} from "angular2-multiselect-dropdown";
 import {HttpClientModule} from "@angular/common/http";
 import {BsDatepickerModule, BsLocaleService, DatepickerModule} from "ngx-bootstrap/datepicker";
+import {NgxSpinnerModule} from "ngx-spinner";
+import {LottieModule} from "ngx-lottie";
+import {SharedModule} from "./common-modules/shared.module";
+import player from 'lottie-web';
+export function playerFactory() {
+  return player;
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,11 +27,13 @@ import {BsDatepickerModule, BsLocaleService, DatepickerModule} from "ngx-bootstr
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+
+    LottieModule.forRoot({ player: playerFactory }),
     ModalModule.forRoot(),
-    DatepickerModule.forRoot(),BsDatepickerModule.forRoot(),
+    DatepickerModule.forRoot(), BsDatepickerModule.forRoot(),
     FormsModule, ReactiveFormsModule,
     HttpClientModule,
-    AngularMultiSelectModule
+    AngularMultiSelectModule, NgxSpinnerModule, SharedModule
   ],
   bootstrap: [AppComponent]
 })

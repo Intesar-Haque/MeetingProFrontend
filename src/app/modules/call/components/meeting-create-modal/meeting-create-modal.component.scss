@@ -1,0 +1,58 @@
+.form-group{
+  margin: .5rem;
+  font-size: small;
+  color:var(--text-secondary)
+}
+.invite-row{
+  display: flow-root;
+  .invite-label{
+    float: left;
+    margin: 0.5rem 0.5rem;
+    padding: 0.5rem 0;
+    font-weight: 700;
+  }
+  .invite-btn{
+    float: right;
+    color:var(--text-secondary);
+    padding: .5rem 1rem;
+    display: inline-flex;
+    background: whitesmoke;
+    margin: .5rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    i{
+      padding: .25rem;
+    }
+
+  }
+  .invite-btn:hover{
+    background: #e5e5e5;
+  }
+}
+.email-row{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  .email{
+    background: whitesmoke;
+    display: flow-root;
+    padding: 8px;
+    margin: 5px;
+    span{
+      max-width: 12ch;
+    }
+    i{
+      cursor: pointer;
+      padding: 5px;
+    }
+  }
+}
+.input-row{
+  margin: .5rem;
+}
+@media (max-width: 800px) {
+  .email-row{
+    .email{
+      span{max-width: 6ch;}
+    }
+  }
+}

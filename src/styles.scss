@@ -142,59 +142,7 @@ angular2-multiselect .arrow2{
 .dropdown-item{
   cursor: pointer;
 }
-.datepicker-no-shadow .bs-datepicker{
-  box-shadow: none;
-}
-.bs-datepicker-body table td span.selected,
-.bs-datepicker-head,
-.bs-datepicker-head, .bs-datepicker button:active,
-.bs-datepicker-body table td.selected span,
-.bs-datepicker-body table td span[class*="select-"]:after,
-.bs-datepicker-body table td[class*="select-"] span:after,
-.bs-datepicker-body table td.active-week span:hover
-{
-  background-color: var(--color-secondary-light) !important;
-}
-.theme-green .bs-datepicker-head {
-  background-color: var(--color-secondary-light);
-}
-bs-datepicker-container{
-  z-index: 1000000;
-  border-radius: 3%;
-  background-color: white;
-  button{
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    padding: 5px;
-    color:var(--text-primary)
-  }
-}
-.bs-datepicker-body{
-  th, td{
-    padding: 5px;
-    text-align: center;
-    font-size: small;
-  }
-  td{
-    color: var(--text-secondary);
-    cursor: pointer;
-    .selected{
-      padding: 5px;
-      border-radius: 5px;
-      color: white;
-    }
-  }
-  td:hover{
-    background-color: whitesmoke;
-  }
-}
-.bs-datepicker-head{
-  display: flex;
-  bs-datepicker-navigation-view{
-    margin: auto;
-  }
-}
+
 @media (max-width: 719px) {
   .btn-float{
     span{
@@ -205,3 +153,4 @@ bs-datepicker-container{
 @import url(assets/scss/grid.scss);
 @import url(assets/scss/icons.scss);
 @import url(assets/scss/modal.scss);
+@import url(assets/scss/datepicker-custom.scss);

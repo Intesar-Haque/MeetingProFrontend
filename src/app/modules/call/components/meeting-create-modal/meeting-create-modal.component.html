@@ -1,0 +1,29 @@
+<div class="modal-header align-items-center">
+    <span>Create Meeting</span>
+    <i class="fa fa-times pointer" aria-label="Close" (click)="modalRef.hide()" ></i>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form">
+        <div class="form-group">
+            <div class="invite-row">
+                <div class="invite-label">Send Invitation</div>
+                <div class="invite-btn" (click)="copyLink()">Copy Invite Link<i class="fa fa-share-alt"></i></div>
+            </div>
+            <div class="email-row">
+                <div class="email" *ngFor="let email of emails; let i=index">
+                    <span class="float-start text-truncate">{{email}}</span>
+                    <i class="fa fa-times float-end" (click)="removeEmail(i)"></i>
+                </div>
+            </div>
+            <div class="input-row">
+                <input type="text" class="form-control" formControlName="email" placeholder="Enter Email...." (keyup.enter)="addEmail()">
+                <small class="error-text" *ngIf="form.controls.email.dirty && form.controls.email.errors">Please enter valid email address</small>
+            </div>
+        </div>
+    </form>
+    <div class="d-flex justify-content-end mt-3">
+        <button class="btn btn-proceed-outlined me-2" (click)="modalRef.hide()">Cancel</button>
+        <button class="btn btn-proceed me-2" (click)="join()" [disabled]="form.invalid">Create Meeting</button>
+    </div>
+</div>
+

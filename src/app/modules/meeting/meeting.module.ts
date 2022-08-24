@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { RouterModule} from "@angular/router";
-import { CallComponent } from "./components/call/call.component";
+import { RoomComponent } from "./components/room/room.component";
 import { VideoPlayerComponent } from "./components/video-player/video-player.component";
 import { PeerService } from "../../services/peer.service";
 import { SocketService } from "../../services/socket.service";
@@ -12,10 +12,11 @@ import {ChatInputComponent} from "./components/chat/chat-input/chat-input.compon
 import { WhiteBoardComponent } from './components/white-board/white-board.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { MeetingJoinModalComponent } from './components/meeting-join-modal/meeting-join-modal.component';
+import { MeetingCreateModalComponent } from '../call/components/meeting-create-modal/meeting-create-modal.component';
 
 @NgModule({
     declarations: [
-        CallComponent,
+        RoomComponent,
         VideoPlayerComponent,
         ChatComponent,
         ChatInputComponent,
@@ -31,7 +32,7 @@ import { MeetingJoinModalComponent } from './components/meeting-join-modal/meeti
         RouterModule.forChild([
             {
                 path: '',
-                component: CallComponent
+                component: RoomComponent
             }
         ]),
         CommonModule,

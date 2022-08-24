@@ -50,6 +50,8 @@
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "./node_modules/angular2-multiselect-dropdown/themes/default.theme.css",
               "src/assets/fontawesome-free/css/all.min.css",
               "src/styles.scss"
             ],

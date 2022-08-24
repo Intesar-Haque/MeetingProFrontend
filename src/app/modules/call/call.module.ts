@@ -6,14 +6,16 @@ import {BsDropdownConfig, BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {BsDatepickerConfig, BsDatepickerModule} from "ngx-bootstrap/datepicker";
 import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
-import {CallComponent} from "../meeting/components/call/call.component";
+import {RoomComponent} from "../meeting/components/room/room.component";
 import {CallHomeComponent} from "./components/call-home/call-home.component";
+import {MeetingCreateModalComponent} from "./components/meeting-create-modal/meeting-create-modal.component";
+import {SharedModule} from "../../common-modules/shared.module";
 
 
 
 @NgModule({
     declarations: [
-        CallHomeComponent
+        CallHomeComponent,MeetingCreateModalComponent
     ],
     providers: [ BsDatepickerConfig, BsDropdownConfig],
     imports: [
@@ -29,9 +31,13 @@ import {CallHomeComponent} from "./components/call-home/call-home.component";
         BsDropdownModule,
         ModalModule,
         TooltipModule,
+        SharedModule,
     ],
     exports: [
         RouterModule
+    ],
+    entryComponents:[
+        MeetingCreateModalComponent
     ]
 
 })

@@ -29,18 +29,35 @@
     padding: .3rem;
     padding-right: 16px;
     .avatar {
+      cursor: pointer;
       width: 95%;
       border-radius: 50%;
       box-sizing: content-box;
       max-width: 1.5rem;
       max-height: 1.5rem;
     }
+
     i{
       color: var(--text-primary);
       cursor: pointer;
       padding: 5px;
       padding-right: 16px;
     }
+  }
+}
+.dropdown-menu{
+  transform: translateX(-8rem)!important;
+  .dropdown-item{
+    i{
+      color:var(--color-secondary);
+    }
+  }
+  .dropdown-item:active, .dropdown-item:focus {
+    color:var(--text-primary);
+    i{
+      color:var(--text-primary);
+    }
+    background-color: var(--color-secondary) !important;
   }
 }
 .sidenav {

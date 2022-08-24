@@ -1,0 +1,19 @@
+.bs-datepicker-container{
+  padding: 0;
+}
+.bs-datepicker{
+  box-shadow: none;
+}
+.bs-datepicker-body table td span.selected,
+.bs-datepicker-head,
+.bs-datepicker-head, .bs-datepicker button:active,
+.bs-datepicker-body table td.selected span,
+.bs-datepicker-body table td span[class*="select-"]:after,
+.bs-datepicker-body table td[class*="select-"] span:after,
+.bs-datepicker-body table td.active-week span:hover
+{
+  background-color: var(--color-secondary-light) !important;
+}
+.theme-green .bs-datepicker-head {
+  background-color: var(--color-secondary-light);
+}

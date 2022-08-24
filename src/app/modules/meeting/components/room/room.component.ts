@@ -11,13 +11,14 @@ import {MeetingService} from "../../../../services/meeting.service";
 import {BsModalRef, BsModalService, ModalOptions} from "ngx-bootstrap/modal";
 import {CreateJoinModalComponent} from "../../../group/components/create-join-modal/create-join-modal.component";
 import {MeetingJoinModalComponent} from "../meeting-join-modal/meeting-join-modal.component";
+import {AlertService} from "../../../../services/alert.service";
 
 @Component({
   selector: 'app-meeting',
-  templateUrl: './call.component.html',
-  styleUrls: ['./call.component.scss'],
+  templateUrl: './room.component.html',
+  styleUrls: ['./room.component.scss'],
 })
-export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
+export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   public joinedUsers: ConnectedUser[] = [];
   public localStream: MediaStream;
   public screenStream: MediaStream;
@@ -46,7 +47,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     private socketService: SocketService,private router: Router,
     private peerService: PeerService,
     private meetingService:MeetingService,
-    private modalService:BsModalService) { }
+    private modalService:BsModalService, private alertService:AlertService) { }
 
   ngAfterViewInit(): void {
 
@@ -80,6 +81,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.listenToScreenShare();
   }
   startMeeting(){
+    this.alertService.loading()
     this.peerId = Utils.genRoomId();
     let formData = new FormData();
     formData.append('peerId', this.peerId)
@@ -89,6 +91,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.meetingService.joinMeeting(formData).subscribe({
       next:(response)=>{
+        this.alertService.closeAlert()
         if(response){
           this.preExistingUsers = response['joinedUsers']
           this.hasAllPermission = response['isMeetingCreator']
