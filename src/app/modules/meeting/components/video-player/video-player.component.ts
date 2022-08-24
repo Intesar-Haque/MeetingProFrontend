@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MediaService } from 'src/app/services/media.service';
 import {BehaviorSubject} from "rxjs";
+import Utils from "../../../../utils/utils";
 @Component({
   selector: 'app-video-player',
   templateUrl: './video-player.component.html',
@@ -16,12 +17,14 @@ export class VideoPlayerComponent implements AfterViewInit, OnInit {
   public isMute: boolean;
   public isHidden: boolean;
   public videoElementRef: any;
+  noImage=''
 
   constructor(
     private mediaService: MediaService
   ) { }
 
   ngOnInit(): void {
+    this.noImage = Utils.noImage
     this.mediaService.mode = this.mode;
     this.isMute = this.mediaService.isMuted();
     this.isHidden = this.mediaService.isVideoHidden();
@@ -67,7 +70,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnInit {
 
   private playVideo() {
     if (this.videoElementRef) {
-      this.videoElementRef.srcObject = this.stream;
+      this.videoElementRef.srcObject = this.stream || new MediaStream;
       this.videoElementRef.play();
     }
   }

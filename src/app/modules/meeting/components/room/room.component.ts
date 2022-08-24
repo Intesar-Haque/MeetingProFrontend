@@ -89,6 +89,10 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
     if(this.myName){
       formData.append('displayName', this.myName)
     }
+    if(LocalStorageUtil.getString('token')){
+      formData.append('userId','1' )
+    }
+
     this.meetingService.joinMeeting(formData).subscribe({
       next:(response)=>{
         this.alertService.closeAlert()

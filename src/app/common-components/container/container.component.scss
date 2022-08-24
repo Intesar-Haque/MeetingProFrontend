@@ -118,6 +118,11 @@
 @media (max-width: 900px) {
   .sidenav {
     width: 15%;
+    .sidenav-item{
+      span{
+        display: none;
+      }
+    }
     .close-icon{
       display: block;
     }

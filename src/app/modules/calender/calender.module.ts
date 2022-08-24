@@ -1,6 +1,5 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { RouterModule} from "@angular/router";
 import { HttpClientModule } from '@angular/common/http';
 import {CalenderHomeComponent} from "./components/calender-home/calender-home.component";
