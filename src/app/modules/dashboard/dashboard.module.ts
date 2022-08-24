@@ -4,6 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule} from "@angular/router";
 import { HttpClientModule } from '@angular/common/http';
 import {DashboardComponent} from "./components/dashboard.component";
+import {LottieModule} from "ngx-lottie";
 
 @NgModule({
     declarations: [
@@ -19,7 +20,8 @@ import {DashboardComponent} from "./components/dashboard.component";
         ]),
         CommonModule,
         FormsModule,
-        HttpClientModule
+        HttpClientModule,
+        LottieModule
     ],
     exports: [
         RouterModule

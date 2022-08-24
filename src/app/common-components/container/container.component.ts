@@ -45,6 +45,7 @@ export class ContainerComponent implements OnInit {
   noImage: string;
   template: string =`<img src="../../../assets/gif/loading.gif"  alt="">`
   public showMenuAndToolbar = true;
+  showSidebar:boolean= true;
   constructor(private route: Router,private elementRef: ElementRef) { }
 
   ngOnInit(): void {
