@@ -1,59 +1,66 @@
-ng-lottie{
-  position: absolute;
-  left:-8%;
-  right: 0;
-  z-index: -1;
-  width: 85%;
-}
-.login-anim{
+.login-body{
+  overflow: hidden;
+  .brand{
+    margin-top: 2.5rem;
+    margin-left: 3.5rem;
+  }
+
+  .credit{
+    float: right;
+  }
   ng-lottie{
-    background-color: white !important;
-    left:0 !important;
-    top:0 !important;
-    bottom: 0!important;
-    right: 0!important;
-    width: 100%;
-    z-index: 999999 !important;
-    margin:auto;
+    position: absolute;
+    left:-8%;
+    right: 0;
+    z-index: -1;
+    width: 85%;
   }
-}
-.login-form{
-  padding: 20px;
-  margin: 1rem;
-  background: var(--color-secondary-very-light);
-  border-radius: 4px;
-  opacity: .80;
-  color: var(--text-secondary);
-  a{
+  .login-anim{
+    ng-lottie{
+      background-color: white !important;
+      left:0 !important;
+      top:0 !important;
+      bottom: 0!important;
+      right: 0!important;
+      width: 100%;
+      z-index: 999999 !important;
+      margin:auto;
+    }
+  }
+  .login-form{
+    padding: 20px;
+    margin: 1rem;
+    background: var(--color-secondary-very-light);
+    border-radius: 4px;
+    opacity: .80;
     color: var(--text-secondary);
-    cursor: pointer;
+    .login-btn{
+      margin-top:1rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 1rem;
+      .btn{
+        padding: .75rem;
+        .btn-proceed-outlined{
+          background-color: white !important;
+        }
+      }
+    }
+    a{
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
   }
 }
-.login-btn{
-  margin-top:1rem;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 1rem;
-}
-
-.brand{
-  margin-top: 2.5rem;
-  margin-left: 3.5rem;
-}
-
-.credit{
-  float: right;
-}
-
-.form-control{
-  border-radius: 4px;
-  border: 1px solid var(--color-secondary);
-  padding: 1rem;
-}
-
 @media (max-width: 800px) {
+  header{
+    margin-left:0 !important;
+    img{
+      margin: auto !important;
+      display: flex;
+    }
+  }
   #login-form{
     width: 100% !important;
   }
-
 }

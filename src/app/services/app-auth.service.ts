@@ -8,12 +8,14 @@ import {
 } from '@angular/router';
 import {Observable} from "rxjs";
 import LocalStorageUtil from "../utils/local-storage";
+import {HttpClient} from "@angular/common/http";
+import ApiEndpoint from "./ApiEndpoint";
 
 @Injectable({
     providedIn: 'root'
 })
 export class AppAuthService implements CanActivate {
-    constructor(private route: Router) {
+    constructor(private route: Router, private httpClient: HttpClient) {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
@@ -33,5 +35,25 @@ export class AppAuthService implements CanActivate {
         } else {
             return true;
         }
+    }
+
+    register(payload) {
+        return this.httpClient.post(`${ApiEndpoint.SERVICE_ENDPOINT}/register`, payload, {responseType:'text'})
+
+    }
+
+    login(username, password) {
+        let formData =  new FormData();
+        formData.set('username', username);
+        formData.set('password', password);
+        // return this.httpClient.post(`${ApiEndpoint.SERVICE_ENDPOINT}/authenticate`, `username=${username}&password=${password}`, {
+        //     headers:{'Content-Type':'application/x-www-form-urlencoded'}})
+        return this.httpClient.post(`${ApiEndpoint.SERVICE_ENDPOINT}/authenticate`, formData, {responseType:'text'})
+
+    }
+
+    test() {
+        return this.httpClient.get(`${ApiEndpoint.SERVICE_ENDPOINT}/test`).subscribe(next=>console.log(next))
+
     }
 }
