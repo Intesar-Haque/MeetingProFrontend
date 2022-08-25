@@ -28,7 +28,8 @@ export class SocketService {
     let connectedUser:ConnectedUser =  {
       id: 0,
       name: LocalStorageUtil.getString('username'),
-      peerId:userId
+      peerId:userId,
+      notify:null
     };
     this.socket.emit('join-room', roomId, connectedUser);
   }
