@@ -27,7 +27,7 @@ export class MeetingCreateModalComponent implements OnInit {
     });
   }
   copyLink(){
-    this.clipboard.copy(this.roomId)
+    this.clipboard.copy('https://7c06-182-163-112-194.ap.ngrok.io/room/'+this.roomId)
   }
 
   join() {

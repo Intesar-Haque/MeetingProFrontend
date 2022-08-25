@@ -53,11 +53,12 @@ export class LoginComponent implements OnInit {
   }
 
   private login(username, password) {
-    this.authService.login(username, password).subscribe(()=>
-      {
-        LocalStorageUtil.setInfo('username', this.loginForm.value.username);
-        LocalStorageUtil.setInfo('token', Utils.genRoomId());
-        this.authService.test()
+    this.authService.login(username, password).subscribe((response:any)=> {
+        LocalStorageUtil.setInfo('id', response['id']);
+        LocalStorageUtil.setInfo('username', response['username']);
+        LocalStorageUtil.setInfo('token', response['token']);
+        LocalStorageUtil.setInfo('name', response['fullName']);
+        LocalStorageUtil.setInfo('theme', response['colorProfile']);
         this.showLoginAnim= true;
         setTimeout(()=> {
           this.showLoginAnim = false

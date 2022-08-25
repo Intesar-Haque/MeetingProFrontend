@@ -48,12 +48,14 @@ export class AppAuthService implements CanActivate {
         formData.set('password', password);
         // return this.httpClient.post(`${ApiEndpoint.SERVICE_ENDPOINT}/authenticate`, `username=${username}&password=${password}`, {
         //     headers:{'Content-Type':'application/x-www-form-urlencoded'}})
-        return this.httpClient.post(`${ApiEndpoint.SERVICE_ENDPOINT}/authenticate`, formData, {responseType:'text'})
+        return this.httpClient.post(`${ApiEndpoint.SERVICE_ENDPOINT}/authenticate`, formData)
 
     }
 
     test() {
-        return this.httpClient.get(`${ApiEndpoint.SERVICE_ENDPOINT}/test`).subscribe(next=>console.log(next))
+        const options = {withCredentials: true, 'access-control-allow-origin': "http://localhost:4200/", 'Content-Type': 'application/json'}
+
+        return this.httpClient.get(`${ApiEndpoint.SERVICE_ENDPOINT}/test`,options).subscribe(next=>console.log(next))
 
     }
 }
