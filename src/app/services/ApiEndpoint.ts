@@ -1,9 +1,12 @@
 export default class ApiEndpoint {
-    static SERVICE_ENDPOINT = 'http://localhost:8080'
-    static SOCKET_ENDPOINT = 'localhost:3000';
-    // static SOCKET_ENDPOINT = 'https://strong-tires-do-182-163-112-194.loca.lt';
-    static PEER_ENDPOINT = 'localhost:3001';
-    // static PEER_ENDPOINT = 'https://cuddly-taxes-sit-182-163-112-194.loca.lt';
+    // static SOCKET_ENDPOINT = 'localhost:3000';
+    static SOCKET_ENDPOINT = 'http://182.163.112.207:9001';
+    // static PEER_ENDPOINT = 'localhost:3001';
+    static PEER_ENDPOINT = 'http://182.163.112.207:9002';
+    // static SERVICE_ENDPOINT = 'http://localhost:8080';
+    static SERVICE_ENDPOINT = 'http://182.163.112.207:9003';
+    static MY_ADDRESS = 'http://182.163.112.207:9004';
+
     static TURN_URI = 'https://global.xirsys.net/_turn/MeetingPro';
     static TURN_AUTH = 'Basic ' + btoa('intesar:e5f7e820-1afb-11ed-ba6b-0242ac150002');
 

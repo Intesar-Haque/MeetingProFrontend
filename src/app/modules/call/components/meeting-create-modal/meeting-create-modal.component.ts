@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {Subject} from "rxjs";
 import {Clipboard} from '@angular/cdk/clipboard';
+import ApiEndpoint from "../../../../services/ApiEndpoint";
 
 
 @Component({
@@ -27,7 +28,7 @@ export class MeetingCreateModalComponent implements OnInit {
     });
   }
   copyLink(){
-    this.clipboard.copy('https://7c06-182-163-112-194.ap.ngrok.io/room/'+this.roomId)
+    this.clipboard.copy(`${ApiEndpoint.MY_ADDRESS}/room/${this.roomId}`)
   }
 
   join() {
