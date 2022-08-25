@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
       username: ["", Validators.required, Validators.maxLength(50)],
       password: ["", Validators.required, Validators.minLength(6), Validators.maxLength(20)],
       confirmPassword: [""],
-      designation: [""],
+      // designation: [""],
     })
   }
 

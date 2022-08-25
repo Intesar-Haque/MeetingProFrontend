@@ -1,5 +1,6 @@
 .login-body{
-  overflow: hidden;
+  overflow-y: hidden;
+  max-height: 100vh;
   .brand{
     margin-top: 2.5rem;
     margin-left: 3.5rem;

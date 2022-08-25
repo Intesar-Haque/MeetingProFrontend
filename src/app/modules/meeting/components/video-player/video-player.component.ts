@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MediaService } from 'src/app/services/media.service';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 import Utils from "../../../../utils/utils";
 @Component({
   selector: 'app-video-player',
@@ -13,6 +13,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnInit {
   @Input() mode: 'view' | 'owner' = 'view';
   @Input() stream: MediaStream;
   @Input() username: string;
+  @Input() notifyChange = new Subject<boolean>();
   @Input() localStreamControls = new BehaviorSubject(null);
   public isMute: boolean;
   public isHidden: boolean;
@@ -49,6 +50,13 @@ export class VideoPlayerComponent implements AfterViewInit, OnInit {
     }
     this.playVideo();
     this.listenMediaControlChanges();
+    this.notifyChange.subscribe({
+      next:(res)=> {
+        if (res){
+          this.playVideo()
+        }
+      }
+    })
   }
 
   public turnVideoOnOrOff(): void {
@@ -69,8 +77,8 @@ export class VideoPlayerComponent implements AfterViewInit, OnInit {
   }
 
   private playVideo() {
-    if (this.videoElementRef) {
-      this.videoElementRef.srcObject = this.stream || new MediaStream;
+    if (this.videoElementRef &&  this.stream) {
+      this.videoElementRef.srcObject = this.stream;
       this.videoElementRef.play();
     }
   }

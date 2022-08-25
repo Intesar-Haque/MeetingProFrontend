@@ -12,7 +12,7 @@
         <!--    <img src="assets/png/brand_other.png" alt="brand" width="300">-->
     </header>
     <section class="d-flex flex-column col-sm-12 align-items-end pr-5">
-        <div class="col-sm-12 col-md-6 col-lg-4 pt-4" id="login-form">
+        <div class="col-sm-12 col-md-6 col-lg-4" id="login-form">
             <div class="login-form">
                 <ng-container class="p-3" *ngIf="isLogin">
                     <div class="form-group row text-white h3 ms-1"> Login </div>
@@ -25,7 +25,7 @@
                             >Please insert LoginId!</small>
                         </div>
                         <div class="form-group">
-                            <i style="position:relative;top: 2.25rem;right:1rem"
+                            <i style="position:relative;top: 1.7rem;right:1rem"
                                (click)="visibility = !visibility" [ngClass]="visibility ? 'fa fa-eye-slash' : 'fa fa-eye'"
                                class="text-tp-primary float-right">
                             </i>
@@ -72,15 +72,15 @@
                             >Please insert LoginId!</small>
                         </div>
                         <div class="form-group pt-3">
-                            <input type="text" class="form-control" formControlName="password" placeholder="Password">
+                            <input type="password" class="form-control" formControlName="password" placeholder="Password">
                             <small class="error-text invisible" [class]="{'visible':(!registerForm.controls.password.pristine && registerForm.controls.password.invalid)}"
                             >Please insert LoginId!</small>
                         </div>
-                        <div class="form-group pt-3">
-                            <input type="text" class="form-control" formControlName="designation" placeholder="Designation">
-                            <small class="error-text invisible" [class]="{'visible':(!registerForm.controls.designation.pristine && registerForm.controls.designation.invalid)}"
-                            >Please insert LoginId!</small>
-                        </div>
+<!--                        <div class="form-group pt-3">-->
+<!--                            <input type="text" class="form-control" formControlName="designation" placeholder="Designation">-->
+<!--                            <small class="error-text invisible" [class]="{'visible':(!registerForm.controls.designation.pristine && registerForm.controls.designation.invalid)}"-->
+<!--                            >Please insert LoginId!</small>-->
+<!--                        </div>-->
                         <div class="form-group login-btn">
                             <button class="btn btn-proceed-outlined" (click)="isLogin=true">
                                 Login

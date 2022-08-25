@@ -32,6 +32,7 @@
                               class="my-video">
             </app-video-player>
             <app-video-player *ngFor="let user of joinedUsers"
+                              [notifyChange]="user.notify"
                               [stream]="user.stream"
                               [username]="user.name">
             </app-video-player>

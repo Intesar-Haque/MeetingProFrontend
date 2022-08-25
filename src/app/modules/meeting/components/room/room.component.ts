@@ -6,7 +6,7 @@ import { SocketService } from '../../../../services/socket.service';
 import {ConnectedUser} from "../../models/user.model";
 import LocalStorageUtil from "../../../../utils/local-storage";
 import {MediaService} from "../../../../services/media.service";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 import {MeetingService} from "../../../../services/meeting.service";
 import {BsModalRef, BsModalService, ModalOptions} from "ngx-bootstrap/modal";
 import {CreateJoinModalComponent} from "../../../group/components/create-join-modal/create-join-modal.component";
@@ -97,7 +97,11 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
       next:(response)=>{
         this.alertService.closeAlert()
         if(response){
-          this.preExistingUsers = response['joinedUsers']
+          let joinedUsers = response['joinedUsers']
+          let idx = joinedUsers.findIndex(u => u.peerId === this.peerId);
+          joinedUsers.splice(idx, 1)
+          joinedUsers.forEach(user=>{user.notify = new Subject<boolean>()})
+          this.joinedUsers = joinedUsers
           this.hasAllPermission = response['isMeetingCreator']
           this.init()
         }
@@ -110,7 +114,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
     Utils.getMediaStream({ video: true, audio: true }).then(stream => {
       this.localStream = stream;
       this.openPeer();
-    })
+    }).catch(reason => this.openPeer())
     this.openSocket()
   }
   listenToWhiteboard(){
@@ -170,14 +174,12 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   private listenNewUserStream(): void {
     this.peerService.joinUser.subscribe(user => {
       if (user) {
-        console.log(user)
-        if (this.joinedUsers.findIndex(u => u.peerId === user.peerId) < 0) {
-          if(user.name == undefined){
-            let idx = this.preExistingUsers.findIndex(u=>u.peerId === user.peerId);
-            if(idx>-1){
-              user.name = this.preExistingUsers[idx].name
-            }
-          }
+        let idx = this.joinedUsers.findIndex(u => u.peerId === user.peerId);
+        if(idx > -1 ){
+          this.joinedUsers[idx].stream = user.stream
+          this.joinedUsers[idx].notify.next(true)
+        } else {
+          user.notify = new Subject<boolean>()
           this.joinedUsers.push(user);
         }
       }
@@ -191,6 +193,9 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private makeCall(connectedUser: ConnectedUser): void {
+    console.log('Calling')
+    console.log(connectedUser)
+    console.log(this.localStream)
     this.peerService.call(connectedUser, this.localStream);
   }
 

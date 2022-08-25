@@ -45,7 +45,11 @@ export class PeerService {
   }
 
   public handelCall(call: any, connectedUser: ConnectedUser): void {
+    console.log('called')
+    console.log(connectedUser)
     call.on('stream', (anotherStream: any) => {
+
+      console.log('call handle stream')
       connectedUser.stream = anotherStream;
       this.joinUser.next(connectedUser);
       this.currentPeer = call.peerConnection;
@@ -54,8 +58,13 @@ export class PeerService {
 
   private handleInComingCall(stream: MediaStream): void {
     this.peer.on('call', call => {
+      console.log('Call Received')
+      console.log(stream)
       call.answer(stream);
       call.on('stream', (anotherStream: any) => {
+
+        console.log('call stream')
+        console.log(anotherStream)
         this.joinUser.next({ peerId: call.peer, stream: anotherStream });
         this.currentPeer = call.peerConnection;
       })

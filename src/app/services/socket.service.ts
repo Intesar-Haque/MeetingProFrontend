@@ -42,6 +42,7 @@ export class SocketService {
 
   private hanleUserConnect(): void {
     this.socket.on('user-connected', (connectedUser:ConnectedUser) => {
+      console.log(connectedUser)
       this.joinedId.next(connectedUser);
     })
     this.socket.on('user-disconnected', userId => {
