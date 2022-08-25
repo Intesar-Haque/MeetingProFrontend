@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import ApiEndpoint from "./ApiEndpoint";
 import {ConnectedUser} from "../modules/meeting/models/user.model";
 declare var Peer: any;
@@ -65,7 +65,7 @@ export class PeerService {
 
         console.log('call stream')
         console.log(anotherStream)
-        this.joinUser.next({ peerId: call.peer, stream: anotherStream });
+        this.joinUser.next({ peerId: call.peer, stream: anotherStream, notify: new Subject<boolean>() });
         this.currentPeer = call.peerConnection;
       })
     })
