@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/stream.iml" filepath="$PROJECT_DIR$/.idea/stream.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/MeetingProFrontend.iml" filepath="$PROJECT_DIR$/.idea/MeetingProFrontend.iml" />
     </modules>
   </component>
 </project>

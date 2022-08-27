@@ -72,7 +72,8 @@ export class PeerService {
   }
 
   private initPeer(config: any): void {
-    this.peer = new Peer(this.myPeerId, ApiEndpoint.PEER_ENDPOINT);
+//     this.peer = new Peer(this.myPeerId, ApiEndpoint.PEER_ENDPOINT);
+    this.peer = new Peer(this.myPeerId);
   }
 
 }
