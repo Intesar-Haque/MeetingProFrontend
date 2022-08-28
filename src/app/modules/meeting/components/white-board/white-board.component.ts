@@ -37,7 +37,7 @@ export class WhiteBoardComponent implements OnInit {
 
   prepareDrawing($event: MouseEvent) {
     if(this.canDraw){
-      let pathD = `M${$event.offsetX},${$event.offsetY},L${$event.offsetX},${$event.offsetY}`;
+      let pathD = `M${$event.offsetX} ${$event.offsetY} L${$event.offsetX},${$event.offsetY}`;
       this.svgPaths.push({path:pathD,strokeColor:this.pathCss.strokeColor,strokeWidth:this.pathCss.strokeWidth});
       this.pointCount = 1;
       this.path = '';

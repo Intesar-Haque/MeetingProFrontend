@@ -1,11 +1,11 @@
 .content{
-  width: 100vw;
-  height: 60vh;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
   overflow: hidden;
 }
 .white-board-element{
-  width: 100vw;
-  height: 60vh;
+  flex:1;
   overflow: hidden;
   background-color: white;
 }

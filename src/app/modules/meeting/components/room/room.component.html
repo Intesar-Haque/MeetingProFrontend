@@ -1,59 +1,40 @@
 <div class="chat-cion" [ngClass]="{'icon-chat-show-mobile': !isHideChat}">
-    <i class="fa fa-chalkboard action-icons" (click)="whiteboard()" *ngIf="hasWhiteboardPermission()"></i>
+    <i class="fa fa-chalkboard action-icons" (click)="whiteboard()  && isHideShareScreen" *ngIf="hasWhiteboardPermission()"
+       [style.background]="isHideWhiteboard?'':'red'"></i>
     <i class="fa fa-comment action-icons" (click)="hideOrUnhideChat()" [ngClass]="{'fa-comment-slash': !isHideChat}"></i>
     <i class="fa fa-users action-icons" (click)="hideOrUnhideUsers()"></i>
-    <div style="height:1rem; border-left:1px solid white; display: inline-flex"></div>
     <i class="fa fa-video action-icons" (click)="videoControls()" [ngClass]="{'fa-video-slash ': videoHidden}"></i>
     <i class="fa fa-microphone action-icons" (click)="micControls()" [ngClass]="{'fa-microphone-slash ': micMuted}"></i>
-    <i class="fa fa-desktop action-icons" (click)="screenShare()" *ngIf="hasScreenSharePermission()"></i>
+    <i class="fa fa-desktop action-icons" (click)="screenShare()" *ngIf="hasScreenSharePermission() && isHideWhiteboard" [style.background]="isHideShareScreen?'':'red'"></i>
     <i class="fa fa-phone-slash action-icons" [style.color]="'red'" (click)="hangUp()"></i>
 </div>
 <div class="call-container d-flex">
     <div class="s-12 m-9 l-10" [ngClass]="{'m-12 l-12 full-screen':  isHideChat && isHideUsers}">
-        <div style="height: 60vh; background: var(--color-primary-deep);" [style.display]="(isHideWhiteboard && isHideShareScreen)?'none':'block'">
-            <div  style="height: 100%; width: 100%; max-height: 60vh ">
-                <app-white-board [permission]="hasWhiteboardDrawPermission()" *ngIf="!isHideWhiteboard">
-                </app-white-board>
+        <div style="display:inline-flex; max-height: 20vh; overflow-x:auto; overflow-y: hidden;width: 100%; background: var(--color-primary-deep);">
+            <div class="col-4"  *ngIf="localStream">
                 <app-video-player
-                    *ngIf="!isHideShareScreen"
-                    [mode]="'owner'"
-                    [stream]="screenStream"
-                    [username]="myName"
-                    class="my-video">
+                                  [stream]="localStream"
+                                  [username]="myName"
+                                  [localStreamControls]="localStreamControls"
+                                  class="my-video">
+                </app-video-player>
+            </div>
+            <div class="col-4" *ngFor="let user of joinedUsers; let idx = index"  [style.visibility]="{'hidden':idx==selectedIdx}">
+                <app-video-player [notifyChange]="user.notify" [stream]="user.stream"
+                                  [username]="user.name">
                 </app-video-player>
             </div>
         </div>
-        <div class="media-area" style="max-height: 40vh; width: auto; overflow-y: auto;" [style.max-height]="(isHideWhiteboard && isHideShareScreen)?'100vh':'40vh'">
-            <app-video-player *ngIf="localStream"
-                              [mode]="'owner'"
-                              [stream]="localStream"
-                              [username]="myName"
-                              [localStreamControls]="localStreamControls"
-                              class="my-video">
-            </app-video-player>
-            <app-video-player *ngFor="let user of joinedUsers"
-                              [notifyChange]="user.notify"
-                              [stream]="user.stream"
-                              [username]="user.name">
+        <div style="height: 75vh; margin:0.5rem 0; background: var(--color-primary-deep);" >
+            <app-white-board [permission]="hasWhiteboardDrawPermission()" *ngIf="!isHideWhiteboard">
+            </app-white-board>
+            <app-video-player *ngIf="!isHideShareScreen"
+                    [mode]="'owner'"
+                    [stream]="screenStream"
+                    class="my-video">
             </app-video-player>
         </div>
     </div>
-<!--    <div class="media-area s-12 m-9 l-10" [ngClass]="{'m-12 l-12 full-screen':  isHideChat && isHideUsers && isHideShareScreen}"  *ngIf="isHideWhiteboard && isHideShareScreen">-->
-<!--        <app-video-player *ngIf="localStream"-->
-<!--                          [mode]="'owner'"-->
-<!--                          [stream]="localStream"-->
-<!--                          [username]="myName"-->
-<!--                          [localStreamControls]="localStreamControls"-->
-<!--                          class="my-video">-->
-<!--        </app-video-player>-->
-<!--        <app-video-player *ngFor="let user of joinedUsers"-->
-<!--                          [stream]="user.stream" [username]="user.name">-->
-<!--        </app-video-player>-->
-<!--    </div>-->
-<!--    <div class=" s-12 m-9 l-10"-->
-<!--         [ngClass]="{'m-12 l-12 full-screen': isHideChat && isHideUsers && isHideShareScreen}" *ngIf="!isHideWhiteboard && isHideShareScreen">-->
-<!--        <app-white-board></app-white-board>-->
-<!--    </div>-->
     <div [ngClass]="{'hide':isHideChat}"
          class="chat-container s-12 gm-3 l-2 p-0">
         <app-chat (isOpen)="hideOrUnhideChat()"></app-chat>

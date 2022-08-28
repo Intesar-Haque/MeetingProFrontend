@@ -31,11 +31,11 @@ export class LoginComponent implements OnInit {
       grant_type: ["password", Validators.required]
     });
     this.registerForm = this.formBuilder.group({
-      name: ["", Validators.required, Validators.maxLength(50)],
-      email: ["", Validators.required, Validators.email],
-      username: ["", Validators.required, Validators.maxLength(50)],
-      password: ["", Validators.required, Validators.minLength(6), Validators.maxLength(20)],
-      confirmPassword: [""],
+      name: ["", Validators.required],
+      email: ["", Validators.required],
+      username: ["", Validators.required],
+      password: ["", Validators.required],
+      // confirmPassword: [""],
       // designation: [""],
     })
   }

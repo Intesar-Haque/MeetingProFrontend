@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import Utils from 'src/app/utils/utils';
 import { CallUser, PeerService } from '../../../../services/peer.service';
@@ -33,7 +33,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   public isHideShareScreen = true;
   public modalRef: BsModalRef;
   public peerId: string;
-
+  @ViewChild('videoPlayer') videoElement?: any;
   hasAllPermission: boolean = false;
   permissions: {
     whiteboard?:boolean;
@@ -41,6 +41,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
     draw?:boolean;
   } = {};
   preExistingUsers: any [] = [];
+  selectedIdx: number = -1;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -112,7 +113,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
   init(){
     Utils.getMediaStream({ video: true, audio: true }).then(stream => {
-      this.localStream = stream;
+      this.localStream = this.screenStream=  stream;
       this.openPeer();
     }).catch(reason => this.openPeer())
     this.openSocket()
@@ -160,6 +161,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   private listenLeavedUser(): void {
     this.socketService.leavedId.subscribe(userPeerId => {
       this.joinedUsers = this.joinedUsers.filter(x => x.peerId != userPeerId);
+      this.meetingService.leaveMeeting(this.peerId).subscribe()
     })
   }
 
@@ -193,9 +195,6 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private makeCall(connectedUser: ConnectedUser): void {
-    console.log('Calling')
-    console.log(connectedUser)
-    console.log(this.localStream)
     this.peerService.call(connectedUser, this.localStream);
   }
 
@@ -208,25 +207,30 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   screenShare(): void {
-    Utils.getUserStream({  video: true, audio: true }).then(stream => {
-      this.peerService.openPeer(stream, this.peerId).then((myPeerId) => {
-        this.socketService.joinRoom(this.roomId, myPeerId);
-      })
-      this.isHideShareScreen = false
-      this.socketService.shareScreen({peerId:this.peerService.myPeerId, display:true})
-      this.screenStream = stream;
-      const videoTrack = this.screenStream.getVideoTracks()[0];
-      const sender = this.peerService.currentPeer.getSenders().find(s => s.track.kind === videoTrack.kind);
-      sender.replaceTrack(videoTrack);
-      videoTrack.onended = () => {
-        this.stopScreenShare();
-      };
-    }).catch(err => {
-      console.log('Unable to get display media ' + err);
-    });
+    if(this.isHideShareScreen){
+      Utils.getUserStream({  video: true, audio: true }).then(stream => {
+        this.peerService.openPeer(stream, this.peerId).then((myPeerId) => {
+          this.socketService.joinRoom(this.roomId, myPeerId);
+        })
+        this.isHideShareScreen = false
+        this.socketService.shareScreen({peerId:this.peerService.myPeerId, display:true})
+        this.screenStream = stream;
+        const videoTrack = this.screenStream.getVideoTracks()[0];
+        const sender = this.peerService.currentPeer.getSenders().find(s => s.track.kind === videoTrack.kind);
+        sender.replaceTrack(videoTrack);
+        videoTrack.onended = () => {
+          this.stopScreenShare();
+        };
+      }).catch(err => {
+        console.log('Unable to get display media ' + err);
+      });
+    } else {
+      this.stopScreenShare();
+    }
   }
 
   private stopScreenShare(): void {
+    this.screenStream.getTracks().forEach((track)=>track.stop());
     Utils.getMediaStream({ video: true, audio: true }).then(stream => {
       this.localStream = stream;
       this.isHideShareScreen = true
@@ -269,6 +273,13 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.localStream.getTracks().forEach((track)=>track.stop());
     this.meetingService.leaveMeeting(this.peerId).subscribe()
+  }
+
+  changeStream(idx, mediaStram:MediaStream) {
+    this.selectedIdx = idx
+    this.screenStream.getTracks().forEach(track => track.stop())
+    this.screenStream.addTrack(mediaStram.getVideoTracks()[0])
   }
 }

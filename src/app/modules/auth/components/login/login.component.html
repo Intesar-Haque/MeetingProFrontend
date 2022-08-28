@@ -21,8 +21,8 @@
                             <input type="user" class="form-control"
                                    formControlName="username"
                                    name="user" placeholder="Login ID">
-                            <small class="{{(!loginForm.controls.username.pristine && loginForm.controls.username.invalid) ? 'visible text-white':'invisible text-white'}}"
-                            >Please insert LoginId!</small>
+                            <small class="error-text" *ngIf="loginForm.controls.username.dirty && loginForm.controls.username.errors">Username is Required</small>
+
                         </div>
                         <div class="form-group">
                             <i style="position:relative;top: 1.7rem;right:1rem"
@@ -36,9 +36,7 @@
                                     name="password"
                                     placeholder="Password"
                             >
-                            <small
-                                    class="{{(!loginForm.controls.password.pristine && loginForm.controls.password.invalid) ? 'visible text-white':'invisible text-white'}}"
-                            >Please insert password!</small>
+                            <small class="error-text" *ngIf="loginForm.controls.password.dirty && loginForm.controls.password.errors">Password is Required</small>
                         </div>
                         <div class="row justify-content-end w-100 pt-1">
                             <a [routerLink]="['/recover']" (click)="$event.preventDefault()">Forgot Password?</a>
@@ -53,44 +51,38 @@
                         </div>
                     </form>
                 </ng-container>
-                <ng-container class="p-3" *ngIf="!isLogin">
+                <div class="p-3" *ngIf="!isLogin">
                     <div class="form-group row text-white h3 ms-1"> Register </div>
                     <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
                         <div class="form-group pt-3">
                             <input type="text" class="form-control" formControlName="name" placeholder="Full Name">
-                            <small class="error-text invisible" [class]="{'visible':(!registerForm.controls.name.pristine && registerForm.controls.name.invalid)}"
-                            >Please insert LoginId!</small>
+<!--                            <small class="error-text" *ngIf="loginForm.controls.name.dirty && loginForm.controls.name.errors">Invalid Name</small>-->
+
                         </div>
                         <div class="form-group pt-3">
                             <input type="text" class="form-control" formControlName="email" placeholder="Email">
-                            <small class="error-text invisible" [class]="{'visible':(!registerForm.controls.email.pristine && registerForm.controls.email.invalid)}"
-                            >Please insert LoginId!</small>
+<!--                            <small class="error-text" *ngIf="loginForm.controls.email.dirty && loginForm.controls.email.errors">Invalid Email</small>-->
                         </div>
                         <div class="form-group pt-3">
                             <input type="user" class="form-control" formControlName="username" placeholder="Username">
-                            <small class="error-text invisible" [class]="{'visible':(!registerForm.controls.username.pristine && registerForm.controls.username.invalid)}"
-                            >Please insert LoginId!</small>
+<!--                            <small class="error-text" *ngIf="loginForm.controls.username.dirty && loginForm.controls.username.errors">Invalid Username</small>-->
+
                         </div>
                         <div class="form-group pt-3">
                             <input type="password" class="form-control" formControlName="password" placeholder="Password">
-                            <small class="error-text invisible" [class]="{'visible':(!registerForm.controls.password.pristine && registerForm.controls.password.invalid)}"
-                            >Please insert LoginId!</small>
+<!--                            <small class="error-text" *ngIf="loginForm.controls.password.dirty && loginForm.controls.password.errors">Invalid Password</small>-->
+
                         </div>
-<!--                        <div class="form-group pt-3">-->
-<!--                            <input type="text" class="form-control" formControlName="designation" placeholder="Designation">-->
-<!--                            <small class="error-text invisible" [class]="{'visible':(!registerForm.controls.designation.pristine && registerForm.controls.designation.invalid)}"-->
-<!--                            >Please insert LoginId!</small>-->
-<!--                        </div>-->
                         <div class="form-group login-btn">
                             <button class="btn btn-proceed-outlined" (click)="isLogin=true">
                                 Login
                             </button>
-                            <button class="btn btn-proceed" type="submit" [disabled]="this.registerForm.invalid">
+                            <button class="btn btn-proceed" type="submit" [disabled]="registerForm.invalid">
                                 Register
                             </button>
                         </div>
                     </form>
-                </ng-container>
+                </div>
             </div>
         </div>
     </section>

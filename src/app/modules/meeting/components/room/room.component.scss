@@ -16,7 +16,6 @@
       height: 40vh;
     }
   }
-
   .chat-container {
     height: 100vh;
     z-index: 3;
@@ -54,8 +53,6 @@
 
 @media (min-width: 720px) {
   .call-container {
-    height: 100vh;
-    width: 100vw;
     .full-screen {
       height: 100vh;
       width: 100vw;

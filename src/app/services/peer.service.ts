@@ -31,6 +31,7 @@ export class PeerService {
         this.myPeerId = uerPeerId
         this.initPeer(data.v);
         this.peer.on('open', uerPeerId => {
+          console.log("Peer Opened")
           this.myPeerId = uerPeerId
           this.handleInComingCall(stream);
           resolve(uerPeerId);
@@ -72,8 +73,8 @@ export class PeerService {
   }
 
   private initPeer(config: any): void {
-//     this.peer = new Peer(this.myPeerId, ApiEndpoint.PEER_ENDPOINT);
-    this.peer = new Peer(this.myPeerId);
+    this.peer = new Peer(this.myPeerId, ApiEndpoint.PEER_ENDPOINT);
+    // this.peer = new Peer(this.myPeerId);
   }
 
 }

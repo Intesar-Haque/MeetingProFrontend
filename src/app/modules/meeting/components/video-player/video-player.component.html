@@ -1,8 +1,8 @@
-<div class="video-player">
-     <video #videoPlayer muted></video>
+<div class="video-player" [style.height]="mode=='owner' ? '75vh':'20vh'" [style.background]="mode=='owner' ? 'var(--color-primary-dark)':''">
+     <video #videoPlayer muted [style.height]="mode=='owner'?'75vh':'20vh'"></video>
      <div class="action" *ngIf="mode != 'owner'">
-          <i class="fa fa-bell action-icons " [ngClass]="{'fa-bell-slash ': isMute}" (click)="muteOrUnMute()"></i>
-          <i class="fa fa-video action-icons" [ngClass]="{'fa-video-slash': isHidden}" (click)="turnVideoOnOrOff()"></i>
+          <i class="fa fa-microphone-alt action-icons " [ngClass]="{'fa-microphone-alt-slash ': isMute}" (click)="muteOrUnMute()"></i>
+<!--          <i class="fa fa-video action-icons" [ngClass]="{'fa-video-slash': isHidden}" (click)="turnVideoOnOrOff()"></i>-->
      </div>
-     <div class="name-label">{{username || '---'}}</div>
+     <div class="name-label">{{username}}</div>
 </div>
