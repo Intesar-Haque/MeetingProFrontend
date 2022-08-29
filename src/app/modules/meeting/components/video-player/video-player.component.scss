@@ -2,39 +2,36 @@
   position: relative;
   text-align: center;
   height: 20vh;
-  border: 1px solid var(--color-primary-dark);
+  border: 1px solid var(--text-dark);
   background-image: url("src/assets/svg/default-user.svg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  background-color: var(--color-primary-dark);
 
   video {
     width: 100%;
     height: 20vh;
+    border: 1px solid transparent;
   }
 
   .action {
     position: absolute;
-    bottom: 5px;
+    bottom: 0;
+    left: 0;
     display: flex;
     justify-content: center;
-
-    .icon {
-      background-color: white;
-      border-radius: 50%;
-      opacity: 0.3;
-    }
+    font-size: small;
   }
   .name-label{
     position: absolute;
-    right: 1rem;
-    bottom: 1rem;
+    right: 0;
+    bottom: 0;
     padding: 5px;
-    width: fit-content;
-    background-color: #828282;
-    opacity: .75;
-    border-radius: 0.5rem;
-    color:white;
+    max-width: 33%;
+    background-color: var(--text-dark);
+    border-top-left-radius: 0.5rem;
+    color: var(--text-primary);;
     font-size: x-small;
   }
 

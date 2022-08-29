@@ -31,7 +31,6 @@ export class PeerService {
         this.myPeerId = uerPeerId
         this.initPeer(data.v);
         this.peer.on('open', uerPeerId => {
-          console.log("Peer Opened")
           this.myPeerId = uerPeerId
           this.handleInComingCall(stream);
           resolve(uerPeerId);
@@ -46,11 +45,7 @@ export class PeerService {
   }
 
   public handelCall(call: any, connectedUser: ConnectedUser): void {
-    console.log('called')
-    console.log(connectedUser)
     call.on('stream', (anotherStream: any) => {
-
-      console.log('call handle stream')
       connectedUser.stream = anotherStream;
       this.joinUser.next(connectedUser);
       this.currentPeer = call.peerConnection;
@@ -59,13 +54,8 @@ export class PeerService {
 
   private handleInComingCall(stream: MediaStream): void {
     this.peer.on('call', call => {
-      console.log('Call Received')
-      console.log(stream)
       call.answer(stream);
       call.on('stream', (anotherStream: any) => {
-
-        console.log('call stream')
-        console.log(anotherStream)
         this.joinUser.next({ peerId: call.peer, stream: anotherStream, notify: new Subject<boolean>() });
         this.currentPeer = call.peerConnection;
       })
@@ -73,8 +63,7 @@ export class PeerService {
   }
 
   private initPeer(config: any): void {
-    this.peer = new Peer(this.myPeerId, ApiEndpoint.PEER_ENDPOINT);
-    // this.peer = new Peer(this.myPeerId);
+    this.peer = new Peer(this.myPeerId, { config:config });
   }
 
 }

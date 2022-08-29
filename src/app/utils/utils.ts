@@ -10,7 +10,7 @@ export default class Utils {
                 resolve(stream);
             }).catch(() => {
                 console.error('Failed to access camera/microphone');
-                resolve(new MediaStream())
+                reject();
             })
         }
         )
