@@ -106,7 +106,6 @@ export class RoomComponent implements OnInit, OnDestroy {
     } else {
       this.stopScreenShare();
     }
-    this.isHideShareScreen = !this.isHideShareScreen
   }
   public controlMeeting() {
     this.localStream.getTracks().forEach((track)=>track.stop());
@@ -183,7 +182,6 @@ export class RoomComponent implements OnInit, OnDestroy {
           let idx = this.preExistingUsers.findIndex(u => u.peerId === user.peerId)
           if(idx > -1) { user.name = this.preExistingUsers[idx].name }
         }
-        user.notify = new Subject<boolean>()
         this.joinedUsers.push(user)
       }
       if(!this.focusedUser){
@@ -233,11 +231,10 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   // Handle ScreenShare
   private startScreenShare(): void {
-    Utils.getUserStream({  video: true, audio: true, peerIdentity: this.myName })
-        .then(stream => {
-          this.peerService.openPeer(stream, this.peerId).then((myPeerId) => {
-            this.socketService.joinRoom(this.roomId, myPeerId);
-          })
+    Utils.getUserStream().then(stream => {
+          // this.peerService.openPeer(stream, this.peerId).then((myPeerId) => {
+          //   this.socketService.joinRoom(this.roomId, myPeerId);
+          // })
           this.clearPrevFocus()
           this.isHideShareScreen = false
           this.socketService.shareScreen({peerId:this.peerService.myPeerId, display:true})

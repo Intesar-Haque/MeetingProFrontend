@@ -31,13 +31,17 @@ export default class Utils {
         }
         )
     }
-    static getUserStream(constraints?: MediaStreamConstraints): Promise<MediaStream> {
+    static getUserStream(): Promise<MediaStream> {
+        let constraints: MediaStreamConstraints={
+            video: true,
+            audio: false
+        }
         return new Promise<MediaStream>((resolve, reject) => {
-                // @ts-ignore
+            // @ts-ignore
             navigator.mediaDevices.getDisplayMedia(constraints).then(stream => {
                     resolve(stream);
-                }).catch(() => {
-                    console.error('Failed to access display');
+                }).catch((reason) => {
+                    console.error('Failed to access display :: ',reason);
                     reject();
                 })
             }

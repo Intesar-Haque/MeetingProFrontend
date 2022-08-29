@@ -39,7 +39,12 @@
     z-index: 3;
   }
 }
-
+.myScreenShare{
+  width: 100%;
+  height: 75vh;
+  border: 2px solid var(--color-primary-dark);
+  background: var(--color-primary-dark);
+}
 .hide {
   display: none;
 }

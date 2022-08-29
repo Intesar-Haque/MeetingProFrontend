@@ -27,7 +27,6 @@
                             [style.cursor]="!this.isHideShareScreen || !this.isHideShareScreen ? 'disabled': 'pointer'"
                             (click) = "focusStream(user.peerId)"
                             [stream]="user.stream"
-                            [notifyChange]="user.notify"
                             [username]="user.name">
                     </app-video-player>
                 </div>
@@ -36,11 +35,12 @@
                 <app-white-board *ngIf="!isHideWhiteboard"
                      [permission]="hasWhiteboardDrawPermission()"
                 ></app-white-board>
-                <app-video-player *ngIf="focusedUser"
+                <app-video-player *ngIf="focusedUser && screenStream"
                       [mode]="'focus'"
-                      [stream]="focusedUser.stream"
+                      [stream]="screenStream"
                       [username]="focusedUser.name"
                 ></app-video-player>
+                <video class="myScreenShare" *ngIf="!focusedUser && screenStream" [srcObject]="screenStream" autoplay muted></video>
             </div>
         </div>
         <div class="s-12 gm-3 l-2 p-0" [ngClass]="{'hide':isHideChat&&isHideUsers}">
