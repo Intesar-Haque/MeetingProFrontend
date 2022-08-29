@@ -6,7 +6,7 @@ export class MediaService {
   public stream: MediaStream;
   public isMute = new BehaviorSubject(false);
   public isCameraOff = new BehaviorSubject(false);
-  public mode: 'view' | 'owner' = 'view';
+  public mode: 'view' | 'owner' | 'focus' = 'view';
 
   public muteOrUnMute(): void {
     if (this.stream) {

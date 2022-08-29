@@ -108,7 +108,19 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   init(){
-    Utils.getMediaStream({ video: true, audio: true }).then(stream => {
+    Utils.getMediaStream({ video: {
+        width: { min: 300, ideal: 900, max:1600},
+        height: { min: 300, ideal: 900, max:900},
+        frameRate: { max: 25 }
+      }, audio: {
+        autoGainControl: false,
+        channelCount: 2,
+        echoCancellation: false,
+        latency: 0,
+        noiseSuppression: false,
+        sampleRate: 48000,
+        sampleSize: 16
+      }}).then(stream => {
       this.localStream = this.screenStream=  stream;
       this.openPeer();
       this.openSocket()

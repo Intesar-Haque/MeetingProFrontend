@@ -1,7 +1,6 @@
 .video-player {
   position: relative;
   text-align: center;
-  height: 20vh;
   border: 1px solid var(--text-dark);
   background-image: url("src/assets/svg/default-user.svg");
   background-size: contain;
@@ -11,7 +10,7 @@
 
   video {
     width: 100%;
-    height: 20vh;
+    height: 100%;
     border: 1px solid transparent;
   }
 

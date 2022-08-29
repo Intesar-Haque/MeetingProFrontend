@@ -10,7 +10,7 @@ import Utils from "../../../../utils/utils";
 })
 export class VideoPlayerComponent implements AfterViewInit, OnInit {
   @ViewChild('videoPlayer') videoElement?: any;
-  @Input() mode: 'view' | 'owner' = 'view';
+  @Input() mode: 'view' | 'owner' | 'focus' = 'view';
   @Input() stream: MediaStream;
   @Input() username: string;
   @Input() notifyChange = new Subject<boolean>();

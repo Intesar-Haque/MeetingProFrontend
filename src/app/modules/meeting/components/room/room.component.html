@@ -19,6 +19,7 @@
             <div [ngClass]="(isHideShareScreen&&isHideWhiteboard)?'media-area':'row-area'">
                 <div [ngClass]="(isHideShareScreen&&isHideWhiteboard)?'':'col-4'"  *ngIf="localStream">
                     <app-video-player
+                            [mode]="'owner'"
                             [stream]="localStream"
                             [username]="myName"
                             [localStreamControls]="localStreamControls"
@@ -37,9 +38,8 @@
                 <app-white-board [permission]="hasWhiteboardDrawPermission()" *ngIf="!isHideWhiteboard">
                 </app-white-board>
                 <app-video-player *ngIf="!isHideShareScreen"
-                                  [mode]="'owner'"
-                                  [stream]="screenStream"
-                                  class="my-video">
+                                  [mode]="'focus'"
+                                  [stream]="screenStream">
                 </app-video-player>
             </div>
         </div>
