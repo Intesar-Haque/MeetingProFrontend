@@ -1,23 +1,17 @@
-<div style="    position: absolute;
-    right: 0;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    background: var(--color-primary-dark);">
+<div class="room-container">
     <div class="chat-cion" [ngClass]="{'icon-chat-show-mobile': !isHideChat}">
-        <i class="fa fa-chalkboard action-icons" (click)="whiteboard()  && isHideShareScreen" *ngIf="hasWhiteboardPermission()"
-           [style.background]="isHideWhiteboard?'':'red'"></i>
-        <i class="fa fa-comment action-icons" (click)="hideOrUnhideChat()" [ngClass]="{'fa-comment-slash': !isHideChat}"></i>
-        <i class="fa fa-users action-icons" (click)="hideOrUnhideUsers()"></i>
-        <i class="fa fa-video action-icons" (click)="videoControls()" [ngClass]="{'fa-video-slash ': videoHidden}"></i>
-        <i class="fa fa-microphone action-icons" (click)="micControls()" [ngClass]="{'fa-microphone-slash ': micMuted}"></i>
-        <i class="fa fa-desktop action-icons" (click)="screenShare()" *ngIf="hasScreenSharePermission() && isHideWhiteboard" [style.background]="isHideShareScreen?'':'red'"></i>
-        <i class="fa fa-phone-slash action-icons" [style.color]="'red'" (click)="hangUp()"></i>
+        <i class="fa fa-chalkboard action-icons" (click)="controlWhiteboard()" *ngIf="hasWhiteboardPermission() && isHideShareScreen" [style.background]="isHideWhiteboard?'':'red'"></i>
+        <i class="fa fa-comment action-icons" (click)="controlChat()" [ngClass]="{'fa-comment-slash': !isHideChat}"></i>
+        <i class="fa fa-users action-icons" (click)="controlUserList()"></i>
+        <i class="fa fa-video action-icons" (click)="controlVideo()" [ngClass]="{'fa-video-slash ': videoHidden}"></i>
+        <i class="fa fa-microphone action-icons" (click)="controlMic()" [ngClass]="{'fa-microphone-slash ': micMuted}"></i>
+        <i class="fa fa-desktop action-icons" (click)="controlScreenShare()" *ngIf="hasScreenSharePermission() && isHideWhiteboard" [style.background]="iAmSharingScreen?'red':''"></i>
+        <i class="fa fa-phone-slash action-icons" [style.color]="'red'" (click)="controlMeeting()"></i>
     </div>
     <div class="call-container d-flex">
         <div class="s-12 m-9 l-10" [ngClass]="{'m-12 l-12 full-screen':  isHideChat && isHideUsers}">
-            <div [ngClass]="(isHideShareScreen&&isHideWhiteboard)?'media-area':'row-area'">
-                <div [ngClass]="(isHideShareScreen&&isHideWhiteboard)?'':'col-4'"  *ngIf="localStream">
+            <div class="row-area">
+                <div class="col-3"  *ngIf="localStream">
                     <app-video-player
                             [mode]="'owner'"
                             [stream]="localStream"
@@ -26,27 +20,33 @@
                             class="my-video">
                     </app-video-player>
                 </div>
-                <div [ngClass]="(isHideShareScreen&&isHideWhiteboard)?'':'col-4'"  *ngFor="let user of joinedUsers; let idx = index"  [style.visibility]="{'hidden':idx==selectedIdx}">
+                <div class="col-4"
+                     *ngFor="let user of joinedUsers; let idx = index"
+                     [ngClass]="user.isFocused ? 'hide' : ''">
                     <app-video-player
+                            [style.cursor]="!this.isHideShareScreen || !this.isHideShareScreen ? 'disabled': 'pointer'"
+                            (click) = "focusStream(user.peerId)"
                             [stream]="user.stream"
                             [notifyChange]="user.notify"
                             [username]="user.name">
                     </app-video-player>
                 </div>
             </div>
-            <div style="height: 75vh; margin:0.5rem 0; background: var(--color-primary-deep);" *ngIf="!isHideShareScreen || !isHideWhiteboard">
-                <app-white-board [permission]="hasWhiteboardDrawPermission()" *ngIf="!isHideWhiteboard">
-                </app-white-board>
-                <app-video-player *ngIf="!isHideShareScreen"
-                                  [mode]="'focus'"
-                                  [stream]="screenStream">
-                </app-video-player>
+            <div class="focus-area">
+                <app-white-board *ngIf="!isHideWhiteboard"
+                     [permission]="hasWhiteboardDrawPermission()"
+                ></app-white-board>
+                <app-video-player *ngIf="focusedUser"
+                      [mode]="'focus'"
+                      [stream]="focusedUser.stream"
+                      [username]="focusedUser.name"
+                ></app-video-player>
             </div>
         </div>
         <div class="s-12 gm-3 l-2 p-0" [ngClass]="{'hide':isHideChat&&isHideUsers}">
-            <app-chat (isOpen)="hideOrUnhideChat()" *ngIf="!isHideChat" class="side-menu"
+            <app-chat (isOpen)="controlChat()" *ngIf="!isHideChat" class="side-menu"
             ></app-chat>
-            <app-user-list (isOpen)="hideOrUnhideUsers()" *ngIf="!isHideUsers" class="side-menu"
+            <app-user-list (isOpen)="controlUserList()" *ngIf="!isHideUsers" class="side-menu"
                            [users]="joinedUsers"
                            [myName]="myName"
             ></app-user-list>

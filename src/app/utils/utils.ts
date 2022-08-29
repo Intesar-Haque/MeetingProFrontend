@@ -4,8 +4,24 @@ export default class Utils {
     static genRoomId(): string {
         return uuidV4();
     }
-    static getMediaStream(constraints?: MediaStreamConstraints): Promise<MediaStream> {
+    static getMediaStream(): Promise<MediaStream> {
         return new Promise<MediaStream>((resolve, reject) => {
+            let constraints: MediaStreamConstraints={
+                 video: {
+                    width: { min: 300, ideal: 900, max:1600},
+                    height: { min: 300, ideal: 900, max:900},
+                    frameRate: { max: 25 }
+                },
+                audio: {
+                    autoGainControl: false,
+                    channelCount: 2,
+                    echoCancellation: false,
+                    latency: 0,
+                    noiseSuppression: false,
+                    sampleRate: 48000,
+                    sampleSize: 16
+                }
+            }
             navigator.mediaDevices.getUserMedia(constraints).then(stream => {
                 resolve(stream);
             }).catch(() => {

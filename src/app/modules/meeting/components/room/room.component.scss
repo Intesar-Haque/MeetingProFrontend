@@ -1,3 +1,11 @@
+.room-container{
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--color-primary);
+}
 .call-container {
   height: auto;
   max-height: 100vh;
@@ -11,6 +19,10 @@
     overflow-x:auto;
     overflow-y: hidden;
     width: 100%;
+    background: var(--color-primary-deep);
+  }
+  .focus-area{
+    height: 75vh;
     background: var(--color-primary-deep);
   }
   .media-area {

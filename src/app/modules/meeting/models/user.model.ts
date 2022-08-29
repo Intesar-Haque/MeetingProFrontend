@@ -5,5 +5,6 @@ export interface ConnectedUser {
     id?:number;
     name?: string;
     peerId?:string;
+    isFocused?:boolean;
     stream?:MediaStream;
 }

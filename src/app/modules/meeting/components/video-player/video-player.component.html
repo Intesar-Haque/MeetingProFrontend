@@ -1,6 +1,6 @@
 <div class="video-player" [style.height]="mode=='focus' ? '75vh':'20vh'">
      <video #videoPlayer muted></video>
-     <div  *ngIf="mode != 'focus'">
+     <div >
           <div class="action">
                <i class="fa fa-microphone action-icons p-0" [ngClass]="{'fa-microphone-slash text-danger': isMute}" (click)="muteOrUnMute()"></i>
                <!--          <i class="fa fa-video action-icons" [ngClass]="{'fa-video-slash': isHidden}" (click)="turnVideoOnOrOff()"></i>-->

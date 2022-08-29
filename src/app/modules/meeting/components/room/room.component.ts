@@ -18,7 +18,7 @@ import {AlertService} from "../../../../services/alert.service";
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss'],
 })
-export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
+export class RoomComponent implements OnInit, OnDestroy {
   public joinedUsers: ConnectedUser[] = [];
   public localStream: MediaStream;
   public screenStream: MediaStream;
@@ -31,6 +31,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   public isHideUsers = true;
   public isHideChat = true;
   public isHideShareScreen = true;
+  public iAmSharingScreen = false;
   public modalRef: BsModalRef;
   public peerId: string;
   @ViewChild('videoPlayer') videoElement?: any;
@@ -42,6 +43,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   } = {};
   preExistingUsers: any [] = [];
   selectedIdx: number = -1;
+  focusedUser:ConnectedUser;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -49,10 +51,6 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
     private peerService: PeerService,
     private meetingService:MeetingService,
     private modalService:BsModalService, private alertService:AlertService) { }
-
-  ngAfterViewInit(): void {
-
-  }
 
   ngOnInit(): void {
     this.roomId = this.activatedRoute.snapshot.paramMap.get('roomId');
@@ -72,16 +70,131 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.startMeeting()
     }
-
   }
-  openSocket(){
-    this.listenNewUser();
+
+  ngOnDestroy(): void {
+    this.localStream.getTracks().forEach((track)=>track.stop());
+    this.meetingService.leaveMeeting(this.peerId).subscribe()
+  }
+
+
+  //--- Action Buttons ---//
+  public controlChat(): void {
+    this.isHideChat = !this.isHideChat;
+    if(!this.isHideChat) this.isHideUsers = true
+  }
+  public controlUserList(): void  {
+    this.isHideUsers = !this.isHideUsers;
+    if(!this.isHideUsers) this.isHideChat = true
+  }
+  public controlVideo(){
+    this.videoHidden=!this.videoHidden
+    this.localStreamControls.next('video')
+  }
+  public controlMic(){
+    this.micMuted=!this.micMuted
+    this.localStreamControls.next('audio')
+  }
+  public controlWhiteboard() {
+    this.isHideWhiteboard = !this.isHideWhiteboard
+    this.handleWhiteboardFocus()
+    this.socketService.whiteboard(this.isHideWhiteboard)
+  }
+  public controlScreenShare(): void {
+    if(this.isHideShareScreen){
+      this.startScreenShare();
+    } else {
+      this.stopScreenShare();
+    }
+    this.isHideShareScreen = !this.isHideShareScreen
+  }
+  public controlMeeting() {
+    this.localStream.getTracks().forEach((track)=>track.stop());
+    this.meetingService.leaveMeeting(this.peerId).subscribe()
+    this.router.navigateByUrl(`/`)
+  }
+
+  //--- Permissions ----//
+  public hasWhiteboardPermission() :boolean{
+    return this.hasAllPermission || this.permissions.whiteboard;
+  }
+  public hasWhiteboardDrawPermission() :boolean{
+    return this.hasAllPermission || this.permissions.whiteboard || this.permissions.draw;
+  }
+  public hasScreenSharePermission() :boolean{
+    return this.hasAllPermission || this.permissions.screenShare;
+  }
+
+  //--- SOCKET ----//
+  private openSocket(){
+    this.listenNewUserJoinRoom();
+    this.listenNewUserStream();
     this.listenLeavedUser();
-    this.detectScreenWith();
     this.listenToWhiteboard();
     this.listenToScreenShare();
   }
-  startMeeting(){
+  private listenToWhiteboard() : void {
+    this.socketService.hideWhiteboard.subscribe({
+      next:(res:boolean)=>{
+        if(res != undefined){
+          this.isHideWhiteboard = res
+          this.handleWhiteboardFocus()
+        }
+      }
+    })
+  }
+  private listenToScreenShare() : void {
+    this.socketService.isScreenShare.subscribe({
+      next:(res:any)=>{
+        if(res != undefined){
+          this.isHideShareScreen = !res.display
+          if(this.isHideShareScreen){
+            this.clearPrevFocus()
+            this.initFocus()
+          } else {
+            this.focusStream(res.peerId)
+          }
+        }
+      }
+    })
+  }
+  private listenLeavedUser(): void {
+    this.socketService.leavedId.subscribe(userPeerId => {
+      if(userPeerId){
+        this.joinedUsers = this.joinedUsers.filter(x => x.peerId != userPeerId);
+        if(this.focusedUser && this.focusedUser.peerId == userPeerId){
+          this.clearPrevFocus()
+          this.initFocus()
+        }
+      }
+    })
+  }
+  private listenNewUserJoinRoom(): void {
+    this.socketService.joinedId.subscribe((connectedUser:ConnectedUser) => {
+      if (connectedUser) {
+        this.makeCall(connectedUser);
+      }
+    })
+  }
+  private listenNewUserStream(): void {
+    this.peerService.joinUser.subscribe(user => {
+      if(user && user.peerId && this.joinedUsers.findIndex(u => u.peerId === user.peerId) < 0) {
+        if(user.name == undefined){
+          let idx = this.preExistingUsers.findIndex(u => u.peerId === user.peerId)
+          if(idx > -1) { user.name = this.preExistingUsers[idx].name }
+        }
+        user.notify = new Subject<boolean>()
+        this.joinedUsers.push(user)
+      }
+      if(!this.focusedUser){
+        this.initFocus()
+      }
+    })
+  }
+
+  //--- Helpers ---//
+  // Handle Call
+  private startMeeting(){
     this.alertService.loading()
     this.peerId = Utils.genRoomId();
     let formData = new FormData();
@@ -100,207 +213,91 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
         if(response){
           this.preExistingUsers = response['joinedUsers']
           this.hasAllPermission = response['isMeetingCreator']
-          this.init()
+          Utils.getMediaStream()
+              .then((stream)=> this.init(stream))
+              .catch(()=> this.init(new MediaStream()))
         }
       }
     })
   }
-
-
-  init(){
-    Utils.getMediaStream({ video: {
-        width: { min: 300, ideal: 900, max:1600},
-        height: { min: 300, ideal: 900, max:900},
-        frameRate: { max: 25 }
-      }, audio: {
-        autoGainControl: false,
-        channelCount: 2,
-        echoCancellation: false,
-        latency: 0,
-        noiseSuppression: false,
-        sampleRate: 48000,
-        sampleSize: 16
-      }}).then(stream => {
-      this.localStream = this.screenStream=  stream;
-      this.openPeer();
-      this.openSocket()
-    }).catch( ()=> {
-      this.localStream = this.screenStream =  new MediaStream();
-      this.openPeer()
-      this.openSocket()
+  private init(stream:MediaStream){
+    this.localStream = stream;
+    this.peerService.openPeer(stream, this.peerId).then((myPeerId) => {
+      this.socketService.joinRoom(this.roomId, myPeerId);
     })
+    this.openSocket()
   }
-  listenToWhiteboard(){
-    this.socketService.hideWhiteboard.subscribe({
-      next:(res:boolean)=>{
-        if(res != undefined){this.isHideWhiteboard = res}
-      }
-    })
-  }
-  listenToScreenShare(){
-    this.socketService.isScreenShare.subscribe({
-      next:(res:any)=>{
-        if(res != undefined){
-          this.isHideShareScreen = !res.display
-          if(!this.isHideShareScreen){
-            let idx = this.joinedUsers.findIndex(u => u.peerId === res.peerId)
-            if(idx > -1){
-              this.screenStream = this.joinedUsers[idx].stream
-            }
-          }
-        }
-      }
-    })
-  }
-  hideOrUnhideChat(): void {
-    this.isHideChat = !this.isHideChat;
-    if(!this.isHideChat) this.isHideUsers = true
-  }
-
-  private detectScreenWith(): void {
-    if (window.screen.width > 719) {
-      setTimeout(() => {
-        this.isHideChat = false;
-      }, 200);
-    }
-  }
-
-  private listenNewUser(): void {
-    this.listenNewUserJoinRoom();
-    this.listenNewUserStream();
-  }
-
-  private listenLeavedUser(): void {
-    this.socketService.leavedId.subscribe(userPeerId => {
-      this.joinedUsers = this.joinedUsers.filter(x => x.peerId != userPeerId);
-      this.meetingService.leaveMeeting(this.peerId).subscribe()
-    })
-  }
-
-  private listenNewUserJoinRoom(): void {
-    this.socketService.joinedId.subscribe((connectedUser:ConnectedUser) => {
-      if (connectedUser) {
-        this.makeCall(connectedUser);
-      }
-    })
-  }
-
-  private listenNewUserStream(): void {
-    this.peerService.joinUser.subscribe(user => {
-      if(user && user.peerId && this.joinedUsers.findIndex(u => u.peerId === user.peerId) < 0) {
-        if(user.name == undefined){
-          let idx = this.preExistingUsers.findIndex(u => u.peerId === user.peerId)
-          if(idx > -1) { user.name = this.preExistingUsers[idx].name }
-        }
-        user.notify = new Subject<boolean>()
-        this.joinedUsers.push(user)
-      }
-      // if (user) {
-      //   let idx = this.joinedUsers.findIndex(u => u.peerId === user.peerId);
-      //   if(idx > -1 ){
-      //     this.joinedUsers[idx].notify.next(true)
-      //     if(this.joinedUsers[idx].name == undefined){
-      //       this.joinedUsers[idx].name ==
-      //     }
-      //   } else {
-      //     user.notify = new Subject<boolean>()
-      //     this.joinedUsers.push(user);
-      //   }
-      // }
-    })
-  }
-
-  private openPeer(): void {
-    this.peerService.openPeer(this.localStream, this.peerId).then((myPeerId) => {
-      this.joinRoom(this.roomId, myPeerId);
-    })
-  }
-
   private makeCall(connectedUser: ConnectedUser): void {
     this.peerService.call(connectedUser, this.localStream);
   }
 
-  private joinRoom(roomId: string, userPeerId: string): void {
-    this.socketService.joinRoom(roomId, userPeerId);
-  }
-
-  hangUp() {
-    this.router.navigateByUrl(`/`)
-  }
-
-  screenShare(): void {
-    if(this.isHideShareScreen){
-      Utils.getUserStream({  video: true, audio: true, peerIdentity: this.myName }).then(stream => {
-        this.peerService.openPeer(stream, this.peerId).then((myPeerId) => {
-          this.socketService.joinRoom(this.roomId, myPeerId);
+  // Handle ScreenShare
+  private startScreenShare(): void {
+    Utils.getUserStream({  video: true, audio: true, peerIdentity: this.myName })
+        .then(stream => {
+          this.peerService.openPeer(stream, this.peerId).then((myPeerId) => {
+            this.socketService.joinRoom(this.roomId, myPeerId);
+          })
+          this.clearPrevFocus()
+          this.isHideShareScreen = false
+          this.socketService.shareScreen({peerId:this.peerService.myPeerId, display:true})
+          this.screenStream = stream;
+          const videoTrack = this.screenStream.getVideoTracks()[0];
+          const sender = this.peerService.currentPeer.getSenders().find(s => s.track.kind === videoTrack.kind);
+          sender.replaceTrack(videoTrack);
+          videoTrack.onended = () => {
+            this.stopScreenShare();
+          };
         })
-        this.isHideShareScreen = false
-        this.socketService.shareScreen({peerId:this.peerService.myPeerId, display:true})
-        this.screenStream = stream;
-        const videoTrack = this.screenStream.getVideoTracks()[0];
-        const sender = this.peerService.currentPeer.getSenders().find(s => s.track.kind === videoTrack.kind);
-        sender.replaceTrack(videoTrack);
-        videoTrack.onended = () => {
-          this.stopScreenShare();
-        };
-      }).catch(err => {
-        console.log('Unable to get display media ' + err);
-      });
-    } else {
-      this.stopScreenShare();
-    }
+        .catch(err =>
+            console.log('Unable to get display media ' + err)
+        );
   }
-
   private stopScreenShare(): void {
     this.screenStream.getTracks().forEach((track)=>track.stop());
-    Utils.getMediaStream({ video: true, audio: true }).then(stream => {
-      this.localStream = stream;
-      this.isHideShareScreen = true
-      this.socketService.shareScreen({peerId:this.peerService.myPeerId, display:false})
-      const videoTrack = this.localStream.getVideoTracks()[0];
-      const sender = this.peerService.currentPeer.getSenders().find(s => s.track.kind === videoTrack.kind);
-      sender.replaceTrack(videoTrack);
+    this.isHideShareScreen = true
+    this.socketService.shareScreen({peerId:this.peerService.myPeerId, display:false})
+    const videoTrack = this.localStream.getVideoTracks()[0];
+    const sender = this.peerService.currentPeer.getSenders().find(s => s.track.kind === videoTrack.kind);
+    sender.replaceTrack(videoTrack);
+    this.initFocus()
+  }
+
+  // Handle Focus
+  public focusStream(peerId) {
+    this.joinedUsers.forEach(user=>{
+      if(user.peerId == peerId){
+        this.focusedUser = user;
+        user.isFocused = true;
+      } else {
+        user.isFocused = false;
+      }
     })
+    this.screenStream = this.focusedUser.stream
   }
-
-
-  whiteboard() {
-      this.isHideWhiteboard = !this.isHideWhiteboard
-      this.socketService.whiteboard(this.isHideWhiteboard)
+  private clearPrevFocus(){
+    if(this.focusedUser){
+      this.joinedUsers.forEach(user=>{
+        if(this.focusedUser.peerId == user.peerId){
+          user.isFocused = false;
+        }
+      })
+      this.focusedUser = null;
+      this.screenStream = null;
+    }
   }
-  videoControls(){
-    this.videoHidden=!this.videoHidden
-    this.localStreamControls.next('video')
+  private initFocus(idx=0){
+    if(this.joinedUsers.length > idx){
+      this.focusedUser = this.joinedUsers[idx]
+      this.joinedUsers[idx].isFocused = true
+      this.screenStream = this.joinedUsers[idx].stream
+    }
   }
-  micControls(){
-    this.micMuted=!this.micMuted
-    this.localStreamControls.next('audio')
-  }
-
-  hideOrUnhideUsers() {
-    this.isHideUsers = !this.isHideUsers;
-    if(!this.isHideUsers) this.isHideChat = true
-  }
-
-  hasWhiteboardPermission() :boolean{
-    return this.hasAllPermission || this.permissions.whiteboard;
-  }
-  hasWhiteboardDrawPermission() :boolean{
-    return this.hasAllPermission || this.permissions.whiteboard || this.permissions.draw;
-  }
-
-  hasScreenSharePermission() :boolean{
-    return this.hasAllPermission || this.permissions.screenShare;
-  }
-
-  ngOnDestroy(): void {
-    this.localStream.getTracks().forEach((track)=>track.stop());
-    this.meetingService.leaveMeeting(this.peerId).subscribe()
-  }
-
-  changeStream(idx, mediaStram:MediaStream) {
-    this.selectedIdx = idx
-    this.screenStream.getTracks().forEach(track => track.stop())
-    this.screenStream.addTrack(mediaStram.getVideoTracks()[0])
+  private handleWhiteboardFocus(){
+    if(this.isHideWhiteboard){
+      this.initFocus()
+    } else {
+      this.clearPrevFocus()
+    }
   }
 }
