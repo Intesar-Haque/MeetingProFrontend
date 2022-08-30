@@ -1,7 +1,7 @@
 <ngx-spinner name="ui-loader" bdColor="rgba(51,51,51,0.8)" [template]="template"> </ngx-spinner>
 <div class="top-nav">
     <div class="action-buttons">
-        <i class="fa fa-angle-left" (click)="this.showSidebar = !this.showSidebar"></i>
+        <i class="fa" (click)="showSidebar = !showSidebar" [ngClass]="showSidebar?'fa-times':'fa-bars'"></i>
 <!--        <i class="fa fa-angle-right" (click)="side_nav.classList.add('show-nav')"></i>-->
     </div>
     <div class="right-action-buttons">
@@ -28,7 +28,7 @@
     </div>
 </div>
 <div class=" d-flex">
-    <div class="sidenav show-nav" #side_nav *ngIf="this.showSidebar">
+    <div class="sidenav show-nav" *ngIf="showSidebar">
         <div class="sidenav-item"
              *ngFor="let item of menu; let i=index"
              (click)="navigate(item)"
@@ -37,7 +37,7 @@
             <span style="font-size: x-small">{{item.name}}</span>
         </div>
     </div>
-    <div class="content">
+    <div class="content" [ngClass]="{'side-nav-margin':showSidebar}">
         <app-header [title]="current"></app-header>
         <router-outlet></router-outlet>
     </div>

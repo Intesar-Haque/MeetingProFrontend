@@ -7,8 +7,6 @@
         <li role="menuitem"  (click)="openModal(false)"><span class="dropdown-item">Join Group</span></li>
     </ul>
 </div>
-<div class="header-space"></div>
-<div class=" w-75 ms-5 me-2">Your Groups</div>
 <div class="group-container">
     <div class="group-item" *ngFor="let group of groups">
         <div class="btn-group options" dropdown #dropdown="bs-dropdown" [autoClose]="false">
