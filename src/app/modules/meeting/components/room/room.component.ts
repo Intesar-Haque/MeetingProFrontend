@@ -131,6 +131,9 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.listenLeavedUser();
     this.listenToWhiteboard();
     this.listenToScreenShare();
+    if(!this.hasAllPermission){
+      this.listenToPeer();
+    }
   }
   private listenToWhiteboard() : void {
     this.socketService.hideWhiteboard.subscribe({
@@ -172,12 +175,15 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.socketService.joinedId.subscribe((connectedUser:ConnectedUser) => {
       if (connectedUser) {
         this.makeCall(connectedUser);
+        console.log(connectedUser)
+        this.socketService.controlPeer(connectedUser.peerId, "Hello")
       }
     })
   }
   private listenNewUserStream(): void {
     this.peerService.joinUser.subscribe(user => {
       if(user && user.peerId && this.joinedUsers.findIndex(u => u.peerId === user.peerId) < 0) {
+        this.socketService.controlPeer(user.peerId, "hello")
         if(user.name == undefined){
           let idx = this.preExistingUsers.findIndex(u => u.peerId === user.peerId)
           if(idx > -1) { user.name = this.preExistingUsers[idx].name }
@@ -189,12 +195,22 @@ export class RoomComponent implements OnInit, OnDestroy {
       }
     })
   }
+  private listenToPeer(): void {
+    this.socketService.peerControls.subscribe((content:any) => {
+      if (content) {
+        console.log(content)
+        if (content.joinedUsers)  this.preExistingUsers = content.joinedUsers ;
+        if (content.permissions)  this.permissions = content.permissions ;
+      }
+    })
+  }
 
   //--- Helpers ---//
   // Handle Call
   private startMeeting(){
     this.alertService.loading()
     this.peerId = Utils.genRoomId();
+    this.socketService.peerId = this.peerId;
     let formData = new FormData();
     formData.append('peerId', this.peerId)
     formData.append('meetingCode', this.roomId)

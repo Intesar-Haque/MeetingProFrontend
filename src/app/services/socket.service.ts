@@ -13,7 +13,9 @@ export class SocketService {
   public newDraw = new BehaviorSubject(null);
   public hideWhiteboard = new BehaviorSubject(null);
   public isScreenShare = new BehaviorSubject(null);
+  public peerControls = new BehaviorSubject(null);
   public socket: Socket;
+  public peerId: string = '';
 
   constructor() {
     this.socket = io(ApiEndpoint.SOCKET_ENDPOINT, { path: '/socket' });
@@ -22,6 +24,7 @@ export class SocketService {
     this.handleDraw();
     this.handleWhiteboard()
     this.handleScreenShare()
+    this.handlePeer()
   }
 
   public joinRoom(roomId: string, userId: string): void {
@@ -61,6 +64,10 @@ export class SocketService {
       this.newDraw.next(content);
     })
   }
+  controlPeer(peerId, content){
+    this.socket.emit('meeting-controls', peerId, content);
+
+  }
 
   whiteboard(isHideWhiteboard: boolean) {
     this.socket.emit('white-board', isHideWhiteboard);
@@ -78,6 +85,11 @@ export class SocketService {
   private handleScreenShare(): void {
     this.socket.on('on-share-screen', (content:any) => {
       this.isScreenShare.next(content);
+    })
+  }
+  private handlePeer(): void {
+    this.socket.on(this.peerId, (content:any) => {
+      this.peerControls.next(content);
     })
   }
 }
