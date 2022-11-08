@@ -18,7 +18,7 @@ export class SocketService {
   public peerId: string = '';
 
   constructor() {
-    this.socket = io(ApiEndpoint.SOCKET_ENDPOINT, { path: '/socket' });
+    this.socket = io(ApiEndpoint.SOCKET_ENDPOINT, { path: '/host/socket' });
     this.hanleUserConnect();
     this.handleNewMessage();
     this.handleDraw();

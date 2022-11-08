@@ -41,7 +41,10 @@ export class CallHomeComponent {
                 this.alertService.closeAlert()
                 this.router.navigateByUrl(`/room/${this.roomId}`)
             },
-            error:(err)=> this.alertService.showError()
+            error:(err)=> {
+                this.alertService.closeAlert()
+                this.router.navigateByUrl(`/room/${this.roomId}`)
+            }
         })
     }
 

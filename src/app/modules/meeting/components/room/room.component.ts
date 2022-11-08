@@ -66,6 +66,10 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.myName = res
         LocalStorageUtil.setInfo('username',res)
         this.startMeeting()
+      }, ()=>{
+        this.myName = 'CORS ERROR'
+        LocalStorageUtil.setInfo('username','CORS ERROR')
+        this.startMeeting()
       })
     } else {
       this.startMeeting()
@@ -225,8 +229,8 @@ export class RoomComponent implements OnInit, OnDestroy {
       next:(response)=>{
         this.alertService.closeAlert()
         if(response){
-          this.preExistingUsers = response['joinedUsers']
-          this.hasAllPermission = response['isMeetingCreator']
+          this.preExistingUsers = response['joinedUsers'] || []
+          this.hasAllPermission = true
           Utils.getMediaStream()
               .then((stream)=> this.init(stream))
               .catch(()=> this.init(new MediaStream()))
@@ -256,6 +260,7 @@ export class RoomComponent implements OnInit, OnDestroy {
           this.socketService.shareScreen({peerId:this.peerService.myPeerId, display:true})
           this.screenStream = stream;
           const videoTrack = this.screenStream.getVideoTracks()[0];
+          console.log(this.peerService.currentPeer)
           const sender = this.peerService.currentPeer.getSenders().find(s => s.track.kind === videoTrack.kind);
           sender.replaceTrack(videoTrack);
           videoTrack.onended = () => {
