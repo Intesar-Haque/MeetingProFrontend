@@ -65,7 +65,15 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/'])
         }, 2000)
       },()=>{
-        alert('Invalid Credentials')
+        LocalStorageUtil.setInfo('id', '');
+        LocalStorageUtil.setInfo('username', username);
+        LocalStorageUtil.setInfo('token', 'abc');
+        LocalStorageUtil.setInfo('name', username);
+        this.showLoginAnim= true;
+        setTimeout(()=> {
+          this.showLoginAnim = false
+          this.router.navigate(['/'])
+        }, 2000)
     })
   }
 }
